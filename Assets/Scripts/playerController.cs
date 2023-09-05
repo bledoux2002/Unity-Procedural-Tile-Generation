@@ -12,7 +12,7 @@ public class playerController : MonoBehaviour
     public Tilemap map;
     public TileBase changeTile;
     private Vector2 input;
-    private Vector2 origin;
+    private Vector2Int origin;
     private bool isXAxisInUse = false;
     private bool isYAxisInUse = false;
 
@@ -28,15 +28,12 @@ public class playerController : MonoBehaviour
         //Debug.Log(map.GetTile(new Vector3Int (0, 1, 0))); //prints tilename
         //Debug.Log(map.GetTile(new Vector3Int (0, 2, 0))); //prints Null
 
-        float camX = cam.transform.position.x % 1; //how far offcenter cam is from tiles
-        float camY = cam.transform.position.y % 1;
-        if (((camX % 1) > 0.5) && ((camX % 1))
 
 
         //Debug.Log(-116.2345 % 1); //-0.2345
         //Debug.Log(Math.Floor(-12.3)); //-13
-        origin.x = Convert.ToInt32(Math.Floor(cam.transform.position.x));
-        origin.y = Convert.ToInt32(Math.Floor(cam.transform.position.y));
+        origin.x = RoundValue(cam.transform.position.x);
+        origin.y = RoundValue(cam.transform.position.y);
         //Debug.Log(cam.transform.position);
         //Debug.Log(origin);
 
@@ -44,10 +41,10 @@ public class playerController : MonoBehaviour
         {
             for (int x = -radiusX; x <= radiusX; x++)
             {
-                //from top left to bottom right, generate any missing tiles (currently at (0, 0), not on player/cam
-                if (map.GetTile(new Vector3Int (x, y, 0)) == null)
+                //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
+                if (map.GetTile(new Vector3Int (x + origin.x, y + origin.y, 0)) == null)
                 {
-                    map.SetTile(new Vector3Int(x, y, 0), changeTile);
+                    map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile);
                 }
             }
         }
@@ -91,6 +88,26 @@ public class playerController : MonoBehaviour
 //        for (y = )
 
         map.SetTile(currentCell, changeTile);
+    }
+
+    //Used to round out the values inputted (prob a built-in way to do this but it makes me feel smart)
+    int RoundValue(float val)
+    {
+        float offset = val % 1; //how far offcenter cam is from tiles
+        double valDouble;
+
+        if ((offset >= 0.5) || ((offset >= -0.5) && (offset < 0)))
+        {
+            valDouble = Math.Ceiling(val);
+        }
+        else if ((offset < 0.5) && ((offset < 0.5) && (offset > 0)))
+        {
+            valDouble = Math.Floor(val);
+        }
+
+        int valNew = Convert.ToInt32(val);
+
+        return valNew;
     }
 
 
