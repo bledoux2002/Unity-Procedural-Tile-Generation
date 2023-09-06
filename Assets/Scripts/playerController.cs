@@ -82,12 +82,21 @@ public class playerController : MonoBehaviour
             isYAxisInUse = false;
         }
 
-        Vector3Int currentCell = map.WorldToCell(transform.position);
-        
+        Vector3Int currentCell = map.WorldToCell(cam.transform.position);
 
-//        for (y = )
+        for (int y = radiusY; y >= -radiusY; y--)
+        {
+            for (int x = -radiusX; x <= radiusX; x++)
+            {
+                //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
+                if (map.GetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0)) == null)
+                {
+                    map.SetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0), changeTile);
+                }
+            }
+        }
 
-        map.SetTile(currentCell, changeTile);
+        //map.SetTile(currentCell, changeTile);
     }
 
     //Used to round out the values inputted (prob a built-in way to do this but it makes me feel smart)
