@@ -37,12 +37,12 @@ public class MapManager : MonoBehaviour
 
             TileBase clickedTile = map.GetTile(gridPosition);
 
-            int q1 = dataFromTiles[clickedTile].q1;
-            int q2 = dataFromTiles[clickedTile].q2;
-            int q3 = dataFromTiles[clickedTile].q3;
-            int q4 = dataFromTiles[clickedTile].q4;
-
-            Debug.Log("Quadrants of " + clickedTile + " are " + q1 + q2 + q3 + q4);
+            int n = dataFromTiles[clickedTile].north.Length;
+            int e = dataFromTiles[clickedTile].east.Length;
+            int s = dataFromTiles[clickedTile].south.Length;
+            int w = dataFromTiles[clickedTile].west.Length;
+            
+            Debug.Log("Edges of " + clickedTile + " are " + n + e + s + w);
         }
     }
 }

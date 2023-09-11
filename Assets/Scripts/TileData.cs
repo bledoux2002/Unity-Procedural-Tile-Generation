@@ -9,7 +9,8 @@ public class TileData: ScriptableObject
 {
     public TileBase[] tiles;
 
-    public int q1, q2, q3, q4;
+    // These lists define compatible tiles on each edge (north can only be paired with tiles 1, 4, 17, while east can only be paired with tiles 3, 18, 35)
+    public TileBase[] north, east, south, west;
 
 
 
