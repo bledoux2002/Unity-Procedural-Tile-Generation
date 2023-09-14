@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
+using System.Linq;
+using Random = UnityEngine.Random;
 
 public class MapGenerator : MonoBehaviour
 {
-    public GameObject cam;
+    private GameObject cam;
     public int radiusX; //x range of tiles to check for generation
     public int radiusY; //same but for y
     private GameObject mapManagerObj;
     private MapManager mapManager;
-    public Tilemap map;
+    [HideInInspector] public Tilemap map;
     private List<TileData> tileDatas;
     private Dictionary<TileBase, TileData> dataFromTiles;
     private Vector2Int origin;
@@ -19,6 +21,7 @@ public class MapGenerator : MonoBehaviour
     // Awake is called before Start, best for assigning components
     void Awake()
     {
+        cam = GameObject.Find("Main Camera");
         mapManagerObj = GameObject.Find("MapManager");
         mapManager = mapManagerObj.GetComponent<MapManager>();
     }
@@ -61,8 +64,8 @@ public class MapGenerator : MonoBehaviour
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
                 if (map.GetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0)) == null)
                 {
-                    //TileBase changeTile = generateTile(x + currentCell.x, y + currentCell.y);
-                    //map.SetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0), changeTile);
+                    TileBase changeTile = generateTile(x + currentCell.x, y + currentCell.y);
+                    map.SetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0), changeTile);
                 }
             }
         }
@@ -93,9 +96,12 @@ public class MapGenerator : MonoBehaviour
     //returns tile to be generated, takes (x, y) coords to look around at nearby tiles and their properties
     TileBase generateTile(int x, int y)
     {
+        List<TileBase[]> tileLists = new List<TileBase[]>();
+
         try
         {
-            TileBase[] n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].north;
+            TileBase[] n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
+            tileLists.Add(n);
             //Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
         }
         catch
@@ -106,7 +112,8 @@ public class MapGenerator : MonoBehaviour
         
         try
         {
-            TileBase[] e = dataFromTiles[map.GetTile(new Vector3Int(x + 1, y, 0))].east;
+            TileBase[] e = dataFromTiles[map.GetTile(new Vector3Int(x + 1, y, 0))].west;
+            tileLists.Add(e);
             //Debug.Log(e.Length + " compatible tiles east of " + new Vector2Int(x, y));
         }
         catch
@@ -117,7 +124,8 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileBase[] s = dataFromTiles[map.GetTile(new Vector3Int(x, y - 1, 0))].south;
+            TileBase[] s = dataFromTiles[map.GetTile(new Vector3Int(x, y - 1, 0))].north;
+            tileLists.Add(s);
             //Debug.Log(s.Length + " compatible tiles south of " + new Vector2Int(x, y));
         }
         catch
@@ -128,7 +136,8 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileBase[] w = dataFromTiles[map.GetTile(new Vector3Int(x - 1, y, 0))].west;
+            TileBase[] w = dataFromTiles[map.GetTile(new Vector3Int(x - 1, y, 0))].east;
+            tileLists.Add(w);
             //Debug.Log(w.Length + " compatible tiles west of " + new Vector2Int(x, y));
         }
         catch
@@ -137,12 +146,23 @@ public class MapGenerator : MonoBehaviour
             //Debug.Log("Empty tile west of " + new Vector2Int(x, y));
         }
 
-        /* NEXT THING TO DO: CREATE A SUBSET OF N E S AND W LISTS, WHICH CONTAIN TILE DATAS
-        if (n != null)
+        // NEXT THING TO DO: CREATE A SUBSET OF N E S AND W LISTS, WHICH CONTAIN TILE DATAS
+        IEnumerable<TileBase> compTiles;
+        if (tileLists.Count > 0)
         {
-
+            compTiles = tileLists[0];
+            if (tileLists.Count > 1)
+            {
+                for (int i = 1; i < tileLists.Count; i++)
+                {
+                    compTiles = compTiles.Intersect(tileLists[i]);
+                }
+            }
+            int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)compTiles.Count() - 1.0f)));
+            Debug.Log(compTiles.Count());
+            return compTiles.ElementAt(index);
         }
-        */
+
         return map.GetTile(new Vector3Int(x, y, 0));
     }
 
