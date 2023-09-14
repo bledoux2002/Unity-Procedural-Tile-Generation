@@ -43,8 +43,15 @@ public class MapGenerator : MonoBehaviour
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
                 if (map.GetTile(new Vector3Int (x + origin.x, y + origin.y, 0)) == null)
                 {
-                    TileBase changeTile = generateTile(x + origin.x, y + origin.y);
-                    map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile);
+                    try
+                    {
+                        TileBase changeTile = generateTile(x + origin.x, y + origin.y);
+                        map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile);
+                    }
+                    catch
+                    {
+                        Debug.Log("Impossible combination at " + new Vector2Int(x, y));
+                    }
                 }
             }
         }
@@ -62,9 +69,16 @@ public class MapGenerator : MonoBehaviour
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
                 if (map.GetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0)) == null)
                 {
-                    TileBase changeTile = generateTile(x + currentCell.x, y + currentCell.y);
-                    map.SetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0), changeTile);
-                }
+                    try
+                    {
+                        TileBase changeTile = generateTile(x + currentCell.x, y + currentCell.y);
+                        map.SetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0), changeTile);
+                    }
+                    catch
+                    {
+                        Debug.Log("Impossible combination at " + new Vector2Int(x, y));
+                    }
+            }
             }
         }
 
