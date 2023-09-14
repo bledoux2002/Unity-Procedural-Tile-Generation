@@ -45,8 +45,6 @@ public class MapGenerator : MonoBehaviour
                 {
                     TileBase changeTile = generateTile(x + origin.x, y + origin.y);
                     map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile);
-
-
                 }
             }
         }
@@ -112,7 +110,7 @@ public class MapGenerator : MonoBehaviour
         
         try
         {
-            TileBase[] e = dataFromTiles[map.GetTile(new Vector3Int(x + 1, y, 0))].west;
+            TileBase[] e = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y, 0))].west;
             tileLists.Add(e);
             //Debug.Log(e.Length + " compatible tiles east of " + new Vector2Int(x, y));
         }
@@ -124,7 +122,7 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileBase[] s = dataFromTiles[map.GetTile(new Vector3Int(x, y - 1, 0))].north;
+            TileBase[] s = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y - 1, 0))].north;
             tileLists.Add(s);
             //Debug.Log(s.Length + " compatible tiles south of " + new Vector2Int(x, y));
         }
@@ -136,7 +134,7 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileBase[] w = dataFromTiles[map.GetTile(new Vector3Int(x - 1, y, 0))].east;
+            TileBase[] w = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y, 0))].east;
             tileLists.Add(w);
             //Debug.Log(w.Length + " compatible tiles west of " + new Vector2Int(x, y));
         }
@@ -146,12 +144,14 @@ public class MapGenerator : MonoBehaviour
             //Debug.Log("Empty tile west of " + new Vector2Int(x, y));
         }
 
-        // NEXT THING TO DO: CREATE A SUBSET OF N E S AND W LISTS, WHICH CONTAIN TILE DATAS
+        //Debug.Log(tileLists.Count());
+
         IEnumerable<TileBase> compTiles;
-        if (tileLists.Count > 0)
+        if (tileLists.Count() > 0)
         {
+            //Debug.Log("There are " + tileLists.Count() + " tiles surrounding " + new Vector2Int(x, y));
             compTiles = tileLists[0];
-            if (tileLists.Count > 1)
+            if (tileLists.Count() > 1)
             {
                 for (int i = 1; i < tileLists.Count; i++)
                 {
@@ -159,11 +159,16 @@ public class MapGenerator : MonoBehaviour
                 }
             }
             int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)compTiles.Count() - 1.0f)));
-            Debug.Log(compTiles.Count());
+            //Debug.Log(compTiles.Count());
             return compTiles.ElementAt(index);
         }
-
-        return map.GetTile(new Vector3Int(x, y, 0));
+        
+        //Debug.Log(mapManager.dataFromTiles.Count);
+        int place = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles.Count)));
+        //Debug.Log(place);
+        KeyValuePair<TileBase, TileData> pair = mapManager.dataFromTiles.ElementAt(place);
+        Debug.Log(pair.Key);
+        return pair.Key;
     }
 
 
