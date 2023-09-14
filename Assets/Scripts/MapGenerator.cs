@@ -158,7 +158,7 @@ public class MapGenerator : MonoBehaviour
                     compTiles = compTiles.Intersect(tileLists[i]);
                 }
             }
-            int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)compTiles.Count() - 1.0f)));
+            int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)compTiles.Count())));
             //Debug.Log(compTiles.Count());
             return compTiles.ElementAt(index);
         }
