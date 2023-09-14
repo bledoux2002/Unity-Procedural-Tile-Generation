@@ -9,30 +9,29 @@ public class MapGenerator : MonoBehaviour
     public GameObject cam;
     public int radiusX; //x range of tiles to check for generation
     public int radiusY; //same but for y
+    private GameObject mapManagerObj;
+    private MapManager mapManager;
     public Tilemap map;
-    public TileBase changeTile;
+    private List<TileData> tileDatas;
+    private Dictionary<TileBase, TileData> dataFromTiles;
     private Vector2Int origin;
+
+    // Awake is called before Start, best for assigning components
+    void Awake()
+    {
+        mapManagerObj = GameObject.Find("MapManager");
+        mapManager = mapManagerObj.GetComponent<MapManager>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log(transform.position);
-        //Vector2 pCoords = new Vector2(transform.position.x, transform.position.y); //curent player coords in tilemap (only int for now, player moves entire int every movement)
-        //Debug.Log(pCoords);
-        //private tileTable = ;
-        //private 
-        //Debug.Log(changeTile);
-        //Debug.Log(map.GetTile(new Vector3Int (0, 1, 0))); //prints tilename
-        //Debug.Log(map.GetTile(new Vector3Int (0, 2, 0))); //prints Null
+        //mapManager = mapmanagerObj.GetComponent<script>("MapManager");
 
 
-
-        //Debug.Log(-116.2345 % 1); //-0.2345
-        //Debug.Log(Math.Floor(-12.3)); //-13
         origin.x = RoundValue(cam.transform.position.x);
         origin.y = RoundValue(cam.transform.position.y);
-        //Debug.Log(cam.transform.position);
-        //Debug.Log(origin);
+
 
         for (int y = radiusY; y >= -radiusY; y--)
         {
@@ -41,7 +40,10 @@ public class MapGenerator : MonoBehaviour
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
                 if (map.GetTile(new Vector3Int (x + origin.x, y + origin.y, 0)) == null)
                 {
+                    TileBase changeTile = generateTile(x + origin.x, y + origin.y);
                     map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile);
+
+
                 }
             }
         }
@@ -59,7 +61,8 @@ public class MapGenerator : MonoBehaviour
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
                 if (map.GetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0)) == null)
                 {
-                    map.SetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0), changeTile);
+                    //TileBase changeTile = generateTile(x + currentCell.x, y + currentCell.y);
+                    //map.SetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0), changeTile);
                 }
             }
         }
@@ -85,6 +88,62 @@ public class MapGenerator : MonoBehaviour
         int valNew = Convert.ToInt32(val);
 
         return valNew;
+    }
+
+    //returns tile to be generated, takes (x, y) coords to look around at nearby tiles and their properties
+    TileBase generateTile(int x, int y)
+    {
+        try
+        {
+            TileBase[] n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].north;
+            //Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
+        }
+        catch
+        {
+            TileBase[] n = new TileBase[0];
+            //Debug.Log("Empty tile north of " + new Vector2Int(x, y));
+        }
+        
+        try
+        {
+            TileBase[] e = dataFromTiles[map.GetTile(new Vector3Int(x + 1, y, 0))].east;
+            //Debug.Log(e.Length + " compatible tiles east of " + new Vector2Int(x, y));
+        }
+        catch
+        {
+            TileBase[] e = new TileBase[0];
+            //Debug.Log("Empty tile east of " + new Vector2Int(x, y));
+        }
+
+        try
+        {
+            TileBase[] s = dataFromTiles[map.GetTile(new Vector3Int(x, y - 1, 0))].south;
+            //Debug.Log(s.Length + " compatible tiles south of " + new Vector2Int(x, y));
+        }
+        catch
+        {
+            TileBase[] s = new TileBase[0];
+            //Debug.Log("Empty tile south of " + new Vector2Int(x, y));
+        }
+
+        try
+        {
+            TileBase[] w = dataFromTiles[map.GetTile(new Vector3Int(x - 1, y, 0))].west;
+            //Debug.Log(w.Length + " compatible tiles west of " + new Vector2Int(x, y));
+        }
+        catch
+        {
+            TileBase[] w = new TileBase[0];
+            //Debug.Log("Empty tile west of " + new Vector2Int(x, y));
+        }
+
+        /* NEXT THING TO DO: CREATE A SUBSET OF N E S AND W LISTS, WHICH CONTAIN TILE DATAS
+        if (n != null)
+        {
+
+        }
+        */
+        return map.GetTile(new Vector3Int(x, y, 0));
     }
 
 

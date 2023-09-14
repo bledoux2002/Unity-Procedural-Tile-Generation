@@ -12,7 +12,8 @@ public class MapManager : MonoBehaviour
     [SerializeField]
     private List<TileData> tileDatas;
 
-    private Dictionary<TileBase, TileData> dataFromTiles;
+    [HideInInspector]
+    public Dictionary<TileBase, TileData> dataFromTiles;
 
     private void Awake()
     {
@@ -42,7 +43,7 @@ public class MapManager : MonoBehaviour
             int s = dataFromTiles[clickedTile].south.Length;
             int w = dataFromTiles[clickedTile].west.Length;
             
-            Debug.Log("Edges of " + clickedTile + " are " + n + e + s + w);
+            Debug.Log("Number of compatible tiles on each edge of " + gridPosition + " are " + n + e + s + w);
         }
     }
 }

@@ -14,7 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tiles:
   - {fileID: 11400000, guid: 9c37181e39988f14a9b5912715e2214d, type: 2}
-  q1: 0
-  q2: 0
-  q3: 1
-  q4: 0
+  north:
+  - {fileID: 11400000, guid: e4112d54eb8fd5e4a88853b689ee3df1, type: 2}
+  - {fileID: 11400000, guid: 403504a8e51baa24d8bd1b0ffeb4e1a4, type: 2}
+  - {fileID: 11400000, guid: 2b2643b221c746646808ad8744b557a9, type: 2}
+  - {fileID: 11400000, guid: 66d4cf4beef9fe14dba1762403228273, type: 2}
+  - {fileID: 11400000, guid: e6f2cc48f0cba7646adac6c05478299e, type: 2}
+  east:
+  - {fileID: 11400000, guid: 8f4cc9060c874a74a80abdc6aaa7c612, type: 2}
+  - {fileID: 11400000, guid: 51c2ef3b5e097cc4e88cf794aaf75076, type: 2}
+  - {fileID: 11400000, guid: 7ba0c7b6f17741f4f991c2ce20e3700a, type: 2}
+  south:
+  - {fileID: 11400000, guid: b4517d7be513262449bf46d7bec09832, type: 2}
+  - {fileID: 11400000, guid: 2b2643b221c746646808ad8744b557a9, type: 2}
+  - {fileID: 11400000, guid: 7ba0c7b6f17741f4f991c2ce20e3700a, type: 2}
+  west:
+  - {fileID: 11400000, guid: e4112d54eb8fd5e4a88853b689ee3df1, type: 2}
+  - {fileID: 11400000, guid: 403504a8e51baa24d8bd1b0ffeb4e1a4, type: 2}
+  - {fileID: 11400000, guid: 51c2ef3b5e097cc4e88cf794aaf75076, type: 2}
+  - {fileID: 11400000, guid: e71311618c3dec64ba65e748aba6b13c, type: 2}
+  - {fileID: 11400000, guid: e6f2cc48f0cba7646adac6c05478299e, type: 2}
