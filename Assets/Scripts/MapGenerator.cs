@@ -43,15 +43,16 @@ public class MapGenerator : MonoBehaviour
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
                 if (map.GetTile(new Vector3Int (x + origin.x, y + origin.y, 0)) == null)
                 {
-                    try
-                    {
+                    //try
+                    //{
                         TileBase changeTile = generateTile(x + origin.x, y + origin.y);
                         map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile);
-                    }
+                    /*}
                     catch
                     {
+                        regenerateTiles(x + origin.x, y + origin.y);
                         Debug.Log("Impossible combination at " + new Vector2Int(x, y));
-                    }
+                    }*/
                 }
             }
         }
@@ -108,8 +109,11 @@ public class MapGenerator : MonoBehaviour
     //returns tile to be generated, takes (x, y) coords to look around at nearby tiles and their properties
     TileBase generateTile(int x, int y)
     {
+        //List of lists of TileBases, will be used to find intersect between all sets of compatible tiles for edges of adjacent tiles
         List<TileBase[]> tileLists = new List<TileBase[]>();
 
+        //if there's a tile on a given side, add the list of edge-compatible tiles to tileLists
+        //catch, empty list, don't add to tileLists
         try
         {
             TileBase[] n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
@@ -158,13 +162,16 @@ public class MapGenerator : MonoBehaviour
             //Debug.Log("Empty tile west of " + new Vector2Int(x, y));
         }
 
-        //Debug.Log(tileLists.Count());
-
+        //List of compatible tiles with adjacent tiles
         IEnumerable<TileBase> compTiles;
+
+        //if there is at least one adjacent tile, use that tile's edge-compatible tile list
         if (tileLists.Count() > 0)
         {
             //Debug.Log("There are " + tileLists.Count() + " tiles surrounding " + new Vector2Int(x, y));
             compTiles = tileLists[0];
+
+            //if there is more than one adjacent tile, continuously find intersect of compTiles and each of the rest of the adjacent tiles' edge-compatible tile lists
             if (tileLists.Count() > 1)
             {
                 for (int i = 1; i < tileLists.Count; i++)
@@ -172,19 +179,61 @@ public class MapGenerator : MonoBehaviour
                     compTiles = compTiles.Intersect(tileLists[i]);
                 }
             }
+
+            //select a random tile from compTiles to return
+            //THIS WILL LATER BE REPLACED WITH GAUSSIAN DISTRIBUTION
             int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)compTiles.Count())));
-            //Debug.Log(compTiles.Count());
-            return compTiles.ElementAt(index);
+
+            try
+            {
+                return compTiles.ElementAt(index);
+            }
+            catch
+            {
+                Debug.Log("Impossible combination at " + new Vector2Int(x, y));
+                regenerateTiles(x, y);
+            }
         }
         
-        //Debug.Log(mapManager.dataFromTiles.Count);
+        //if there are no adjacent tiles, select a random tile to begin with and return it
+            //in my current implementation, this is only ever called once: generation and movement never skips a line so there will always be at least one adjacent tile after the beginning
         int place = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles.Count)));
-        //Debug.Log(place);
         KeyValuePair<TileBase, TileData> pair = mapManager.dataFromTiles.ElementAt(place);
-        Debug.Log(pair.Key);
+
         return pair.Key;
     }
 
+    //looks at adjacent tiles and regenerates them if necessary
+        //might be difficult to implement since it wont have context of which replacement will result in the least subsequent replacements
+    void regenerateTiles(int x, int y)
+    {
+        Dictionary<string, int[]> adjacentTiles = new Dictionary<string, int[]>();
+        if (map.GetTile(new Vector3Int(x, y + 1, 0)) != null)
+        {
+            //adjacentTiles['north'] = map.getTile(new Vector3Int(x, y + 1, 0))
+            adjacentTiles["north"] = new int[] { x, y + 1 };
+        }
+        if (map.GetTile(new Vector3Int(x + 1, y, 0)) != null)
+        {
+            //adjacentTiles['east'] = map.getTile(new Vector3Int(x + 1, y, 0))
+            adjacentTiles["east"] = new int[] { x + 1, y };
+        }
+        if (map.GetTile(new Vector3Int(x, y - 1, 0)) != null)
+        {
+            //adjacentTiles['south'] = map.getTile(new Vector3Int(x, y - 1, 0))
+            adjacentTiles["south"] = new int[] { x, y - 1 };
+        }
+        if (map.GetTile(new Vector3Int(x - 1, y, 0)) != null)
+        {
+            //adjacentTiles['west'] = map.getTile(new Vector3Int(x - 1, y, 0))
+            adjacentTiles["west"] = new int[] { x - 1, y };
+        }
+
+        int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)adjacentTiles.Count)));
+        KeyValuePair<string, int[]> pair = adjacentTiles.ElementAt(index);
+        
+        generateTile(pair.Key[0], pair.Key[1]);
+    }
 
     //hash table constantly updating with loaded tiles in rendered area, values shift over as needed
     //tile class with tile component, hashtable/variables/array of corner values
