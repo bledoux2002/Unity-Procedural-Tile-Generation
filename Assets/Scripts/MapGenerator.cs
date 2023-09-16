@@ -43,16 +43,15 @@ public class MapGenerator : MonoBehaviour
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
                 if (map.GetTile(new Vector3Int (x + origin.x, y + origin.y, 0)) == null)
                 {
-                    //try
-                    //{
+                    try
+                    {
                         TileBase changeTile = generateTile(x + origin.x, y + origin.y);
                         map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile);
-                    /*}
+                    }
                     catch
                     {
-                        regenerateTiles(x + origin.x, y + origin.y);
                         Debug.Log("Impossible combination at " + new Vector2Int(x, y));
-                    }*/
+                    }
                 }
             }
         }
@@ -184,22 +183,21 @@ public class MapGenerator : MonoBehaviour
             //THIS WILL LATER BE REPLACED WITH GAUSSIAN DISTRIBUTION
             int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)compTiles.Count())));
 
-            try
-            {
+            //try
+            //{
                 return compTiles.ElementAt(index);
-            }
+            /*}
             catch
             {
                 Debug.Log("Impossible combination at " + new Vector2Int(x, y));
-                regenerateTiles(x, y);
-            }
+                //regenerateTiles(x, y);
+            }*/
         }
         
         //if there are no adjacent tiles, select a random tile to begin with and return it
             //in my current implementation, this is only ever called once: generation and movement never skips a line so there will always be at least one adjacent tile after the beginning
         int place = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles.Count)));
         KeyValuePair<TileBase, TileData> pair = mapManager.dataFromTiles.ElementAt(place);
-
         return pair.Key;
     }
 
