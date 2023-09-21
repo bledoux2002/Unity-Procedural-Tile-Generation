@@ -161,6 +161,54 @@ public class MapGenerator : MonoBehaviour
             //Debug.Log("Empty tile west of " + new Vector2Int(x, y));
         }
 
+        try
+        {
+            TileBase[] nw = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y + 1, 0))].southeast;
+            tileLists.Add(nw);
+            //Debug.Log(nw.Length + " compatible tiles northwest of " + new Vector2Int(x, y));
+        }
+        catch
+        {
+            TileBase[] nw = new TileBase[0];
+            //Debug.Log("Empty tile northwest of " + new Vector2Int(x, y));
+        }
+
+        try
+        {
+            TileBase[] ne = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y + 1, 0))].southwest;
+            tileLists.Add(ne);
+            //Debug.Log(ne.Length + " compatible tiles northeast of " + new Vector2Int(x, y));
+        }
+        catch
+        {
+            TileBase[] nw = new TileBase[0];
+            //Debug.Log("Empty tile northeast of " + new Vector2Int(x, y));
+        }
+
+        try
+        {
+            TileBase[] se = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y - 1, 0))].northwest;
+            tileLists.Add(se);
+            //Debug.Log(se.Length + " compatible tiles southeast of " + new Vector2Int(x, y));
+        }
+        catch
+        {
+            TileBase[] se = new TileBase[0];
+            //Debug.Log("Empty tile southeast of " + new Vector2Int(x, y));
+        }
+
+        try
+        {
+            TileBase[] sw = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y - 1, 0))].northeast;
+            tileLists.Add(sw);
+            //Debug.Log(sw.Length + " compatible tiles southwest of " + new Vector2Int(x, y));
+        }
+        catch
+        {
+            TileBase[] sw = new TileBase[0];
+            //Debug.Log("Empty tile southwest of " + new Vector2Int(x, y));
+        }
+
         //List of compatible tiles with adjacent tiles
         IEnumerable<TileBase> compTiles;
 
