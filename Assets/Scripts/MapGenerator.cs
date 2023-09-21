@@ -157,6 +157,9 @@ public class MapGenerator : MonoBehaviour
             //Debug.Log("Empty tile west of " + new Vector2Int(x, y));
         }
 
+        //CORNER CHECKS ARE NOT NECESSARY, NEXT 4 TRY-CATCHES ARE REDUNDANT
+        /*
+
         try
         {
             TileBase[] nw = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y + 1, 0))].southeast;
@@ -169,8 +172,6 @@ public class MapGenerator : MonoBehaviour
             //Debug.Log("Empty tile northwest of " + new Vector2Int(x, y));
         }
 
-        //CORNER CHECKS ARE NOT NECESSARY, NEXT 4 TRY-CATCHES ARE REDUNDANT
-        /*
         try
         {
             TileBase[] ne = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y + 1, 0))].southwest;
