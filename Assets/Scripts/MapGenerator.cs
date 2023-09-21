@@ -29,12 +29,8 @@ public class MapGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //mapManager = mapmanagerObj.GetComponent<script>("MapManager");
-
-
         origin.x = RoundValue(cam.transform.position.x);
         origin.y = RoundValue(cam.transform.position.y);
-
 
         for (int y = radiusY; y >= -radiusY; y--)
         {
@@ -173,6 +169,8 @@ public class MapGenerator : MonoBehaviour
             //Debug.Log("Empty tile northwest of " + new Vector2Int(x, y));
         }
 
+        //CORNER CHECKS ARE NOT NECESSARY, NEXT 4 TRY-CATCHES ARE REDUNDANT
+
         try
         {
             TileBase[] ne = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y + 1, 0))].southwest;
@@ -229,7 +227,40 @@ public class MapGenerator : MonoBehaviour
 
             //select a random tile from compTiles to return
             //THIS WILL LATER BE REPLACED WITH GAUSSIAN DISTRIBUTION
-            int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)compTiles.Count())));
+            //int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)compTiles.Count())));
+
+            //Gaussian Selection of tile
+
+            //list of the chances elected by the dev
+            List<double> chances = new List<double>();
+            for (int i = 0; i < compTiles.Count(); i++)
+            {
+                chances.Add((double)mapManager.dataFromTiles[compTiles.ElementAt(i)].spawnChance);
+            }
+
+            //random gaussian number, will find the closest tile "chance" to the selection and save its index in the list
+            double selection = RandomGaussian();
+            double dif = 6d;
+            int index = 0;
+
+            for (int i = 0; i < chances.Count(); i++)
+            {
+                double tempDif = Math.Abs(chances[i] - selection); //find the difference
+
+                //if smaller than previous smallest, overwrite
+                if (tempDif < dif)
+                {
+                    dif = tempDif;
+                    index = i;
+                }
+                else if (tempDif == dif) //if equal, randomly select between the two (if there are multiple tiles with the same chances)
+                {
+                    if (Random.Range(0f, 1f) >= 0.5f)
+                    {
+                        index = i; //no need to reassign dif since its the same as tempDif
+                    }
+                }
+            }
 
             //try
             //{
@@ -245,6 +276,8 @@ public class MapGenerator : MonoBehaviour
         //if there are no adjacent tiles, select a random tile to begin with and return it
             //in my current implementation, this is only ever called once: generation and movement never skips a line so there will always be at least one adjacent tile after the beginning
         int place = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles.Count)));
+        
+        
         KeyValuePair<TileBase, TileData> pair = mapManager.dataFromTiles.ElementAt(place);
         return pair.Key;
     }
@@ -279,6 +312,16 @@ public class MapGenerator : MonoBehaviour
         KeyValuePair<string, int[]> pair = adjacentTiles.ElementAt(index);
         
         generateTile(pair.Key[0], pair.Key[1]);
+    }
+
+    public static double RandomGaussian()
+    {
+        double u1 = Random.Range(0f, 1f);
+        double u2 = Random.Range(0f, 1f);
+        double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
+        double randNormal = 3 * randStdNormal; //random normal(mean,stdDev^2)
+
+        return randNormal;
     }
 
     //hash table constantly updating with loaded tiles in rendered area, values shift over as needed
