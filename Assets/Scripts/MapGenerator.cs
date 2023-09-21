@@ -170,7 +170,7 @@ public class MapGenerator : MonoBehaviour
         }
 
         //CORNER CHECKS ARE NOT NECESSARY, NEXT 4 TRY-CATCHES ARE REDUNDANT
-
+        /*
         try
         {
             TileBase[] ne = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y + 1, 0))].southwest;
@@ -205,7 +205,7 @@ public class MapGenerator : MonoBehaviour
         {
             TileBase[] sw = new TileBase[0];
             //Debug.Log("Empty tile southwest of " + new Vector2Int(x, y));
-        }
+        }*/
 
         //List of compatible tiles with adjacent tiles
         IEnumerable<TileBase> compTiles;
