@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
+  m_Name: purpleNW
+  m_EditorClassIdentifier: 
+  spawnChance: 3
+  tiles:
+  - {fileID: 11400000, guid: 9e1da17f0fa7350468e9c77aca826b9d, type: 2}
+  north:
+  - {fileID: 11400000, guid: e4112d54eb8fd5e4a88853b689ee3df1, type: 2}
+  - {fileID: 11400000, guid: 403504a8e51baa24d8bd1b0ffeb4e1a4, type: 2}
+  east:
+  - {fileID: 11400000, guid: 5b1c5b708278b95428a8e02902448551, type: 2}
+  south:
+  - {fileID: 11400000, guid: a68b9c7101e0e8d41842481e21b0af97, type: 2}
+  west:
+  - {fileID: 11400000, guid: e4112d54eb8fd5e4a88853b689ee3df1, type: 2}
+  - {fileID: 11400000, guid: 403504a8e51baa24d8bd1b0ffeb4e1a4, type: 2}
+  reqTiles:
+  - {fileID: 11400000, guid: 5b1c5b708278b95428a8e02902448551, type: 2}
+  - {fileID: 11400000, guid: 44bd8f7bbc24da9439234b17ea5c1942, type: 2}
+  - {fileID: 11400000, guid: a68b9c7101e0e8d41842481e21b0af97, type: 2}
+  reqTilesCoords:
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: -1, z: 0}
+  - {x: 0, y: -1, z: 0}

@@ -42,7 +42,15 @@ public class MapGenerator : MonoBehaviour
                     try
                     {
                         TileBase changeTile = generateTile(x + origin.x, y + origin.y);
-                        map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile);
+                        map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
+                        int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
+                        if (reqTilesNum > 0)
+                        {
+                            for (int i = 0; i < reqTilesNum; i++)
+                            {
+                                map.SetTile(new Vector3Int(x + origin.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + origin.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i]);
+                            }
+                        }
                     }
                     catch
                     {
@@ -68,7 +76,15 @@ public class MapGenerator : MonoBehaviour
                     try
                     {
                         TileBase changeTile = generateTile(x + currentCell.x, y + currentCell.y);
-                        map.SetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0), changeTile);
+                        map.SetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
+                        int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
+                        if (reqTilesNum > 0)
+                        {
+                            for (int i = 0; i < reqTilesNum; i++)
+                            {
+                                map.SetTile(new Vector3Int(x + currentCell.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + currentCell.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i]);
+                            }
+                        }
                     }
                     catch
                     {
