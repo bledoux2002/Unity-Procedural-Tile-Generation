@@ -153,26 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 1294846427}
-  tileDatas:
-  - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
-  - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
-  - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
-  - {fileID: 11400000, guid: 661c486940788bc48a3b3c60ebf32ae6, type: 2}
-  - {fileID: 11400000, guid: a0157162b08ff84478f8eac3cba82032, type: 2}
-  - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
-  - {fileID: 11400000, guid: 2035111cfc0a87345820b8a0a66983a9, type: 2}
-  - {fileID: 11400000, guid: cb5b659d39768a7498e61fae42f24d71, type: 2}
-  - {fileID: 11400000, guid: e96b3544773751e44bea4218f7c4884e, type: 2}
-  - {fileID: 11400000, guid: fb1cdd982c2cd0b4ba62ece4b4d87bce, type: 2}
-  - {fileID: 11400000, guid: 33048ab2a6584ae45bd4e71524b9076a, type: 2}
-  - {fileID: 11400000, guid: fc9ae69af9c25d846a90666924b90e60, type: 2}
-  - {fileID: 11400000, guid: 80c6f2918c5d58742a817e4122f9c576, type: 2}
-  - {fileID: 11400000, guid: 2d674df98f9a5a84f9265b00960e1e1d, type: 2}
-  - {fileID: 11400000, guid: 03926d34592fdd543ba36b7ebfe8e0e8, type: 2}
-  - {fileID: 11400000, guid: 83eac163755edab48a0216e0d1db4d55, type: 2}
-  - {fileID: 11400000, guid: c8b7bbae9bda09d4997edac6e2857bda, type: 2}
-  - {fileID: 11400000, guid: 8c6401cec7279f740b3993ab3307c9da, type: 2}
-  - {fileID: 11400000, guid: 8e98ea557c972e54a817b7255ff89a15, type: 2}
+  tileDatas: []
 --- !u!4 &59012760
 Transform:
   m_ObjectHideFlags: 0
