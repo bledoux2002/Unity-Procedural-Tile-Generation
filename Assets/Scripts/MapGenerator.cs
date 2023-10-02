@@ -48,7 +48,8 @@ public class MapGenerator : MonoBehaviour
                         {
                             for (int i = 0; i < reqTilesNum; i++)
                             {
-                                map.SetTile(new Vector3Int(x + origin.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + origin.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i]);
+                                int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles[changeTile].reqTiles[i].tiles.Count())));
+                                map.SetTile(new Vector3Int(x + origin.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + origin.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i].tiles[index]);
                             }
                         }
                     }
@@ -82,7 +83,8 @@ public class MapGenerator : MonoBehaviour
                         {
                             for (int i = 0; i < reqTilesNum; i++)
                             {
-                                map.SetTile(new Vector3Int(x + currentCell.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + currentCell.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i]);
+                                int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles[changeTile].reqTiles[i].tiles.Count())));
+                                map.SetTile(new Vector3Int(x + currentCell.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + currentCell.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i].tiles[index]);
                             }
                         }
                     }
@@ -127,8 +129,11 @@ public class MapGenerator : MonoBehaviour
         //catch, empty list, don't add to tileLists
         try
         {
-            TileBase[] n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
-            tileLists.Add(n);
+            TileData[] n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
+            for (int i = 0; i < n.Length; i++)
+            {
+                tileLists.Add(n[i].tiles);
+            }
             //Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
         }
         catch
@@ -139,8 +144,11 @@ public class MapGenerator : MonoBehaviour
         
         try
         {
-            TileBase[] e = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y, 0))].west;
-            tileLists.Add(e);
+            TileData[] e = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y, 0))].west;
+            for (int i = 0; i < e.Length; i++)
+            {
+                tileLists.Add(e[i].tiles);
+            }
             //Debug.Log(e.Length + " compatible tiles east of " + new Vector2Int(x, y));
         }
         catch
@@ -151,8 +159,11 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileBase[] s = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y - 1, 0))].north;
-            tileLists.Add(s);
+            TileData[] s = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y - 1, 0))].north;
+            for (int i = 0; i < s.Length; i++)
+            {
+                tileLists.Add(s[i].tiles);
+            }
             //Debug.Log(s.Length + " compatible tiles south of " + new Vector2Int(x, y));
         }
         catch
@@ -163,8 +174,11 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileBase[] w = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y, 0))].east;
-            tileLists.Add(w);
+            TileData[] w = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y, 0))].east;
+            for (int i = 0; i < w.Length; i++)
+            {
+                tileLists.Add(w[i].tiles);
+            }
             //Debug.Log(w.Length + " compatible tiles west of " + new Vector2Int(x, y));
         }
         catch
