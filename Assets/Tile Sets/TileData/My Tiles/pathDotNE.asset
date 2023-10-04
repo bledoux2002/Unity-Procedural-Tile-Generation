@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
+  m_Name: pathDotNE
+  m_EditorClassIdentifier: 
+  spawnChance: 3
+  tiles:
+  - {fileID: 11400000, guid: e196f7031ad4b8c4f8dde3ed8e8b239c, type: 2}
+  north:
+  - {fileID: 11400000, guid: ef8f979550246ab43b59d02a10815236, type: 2}
+  - {fileID: 11400000, guid: ac4b23a9a850aad4fb854b11f49d621e, type: 2}
+  east:
+  - {fileID: 11400000, guid: 407fbc2b43d680949927713256411a1b, type: 2}
+  - {fileID: 11400000, guid: ac4b23a9a850aad4fb854b11f49d621e, type: 2}
+  south:
+  - {fileID: 11400000, guid: 03926d34592fdd543ba36b7ebfe8e0e8, type: 2}
+  - {fileID: 11400000, guid: 438b66fd7e0b62042835d29f49be76aa, type: 2}
+  - {fileID: 11400000, guid: 85009b85f798dbe45a3ca367e8bae33e, type: 2}
+  - {fileID: 11400000, guid: 6103d32244bb3d04592838763355046b, type: 2}
+  west:
+  - {fileID: 11400000, guid: 03926d34592fdd543ba36b7ebfe8e0e8, type: 2}
+  - {fileID: 11400000, guid: 82ab092a5349c53468d5d6ebbf320091, type: 2}
+  - {fileID: 11400000, guid: 58eafd9a5ef0ca74abdeb8af7c7d83f9, type: 2}
+  - {fileID: 11400000, guid: 6103d32244bb3d04592838763355046b, type: 2}
+  reqTiles: []
+  reqTilesCoords: []
