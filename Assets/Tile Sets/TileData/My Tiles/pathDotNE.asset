@@ -18,9 +18,11 @@ MonoBehaviour:
   north:
   - {fileID: 11400000, guid: ef8f979550246ab43b59d02a10815236, type: 2}
   - {fileID: 11400000, guid: ac4b23a9a850aad4fb854b11f49d621e, type: 2}
+  - {fileID: 11400000, guid: 85009b85f798dbe45a3ca367e8bae33e, type: 2}
   east:
   - {fileID: 11400000, guid: 407fbc2b43d680949927713256411a1b, type: 2}
   - {fileID: 11400000, guid: ac4b23a9a850aad4fb854b11f49d621e, type: 2}
+  - {fileID: 11400000, guid: 58eafd9a5ef0ca74abdeb8af7c7d83f9, type: 2}
   south:
   - {fileID: 11400000, guid: 03926d34592fdd543ba36b7ebfe8e0e8, type: 2}
   - {fileID: 11400000, guid: 438b66fd7e0b62042835d29f49be76aa, type: 2}

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: pathEndW
   m_EditorClassIdentifier: 
   spawnChance: 3
-  tiles: []
+  tiles:
+  - {fileID: 11400000, guid: 156ddc54bce19aa499c81df6a57e76a1, type: 2}
   north: []
   east: []
   south: []

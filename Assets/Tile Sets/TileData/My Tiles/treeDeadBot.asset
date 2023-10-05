@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: treeDeadBot
   m_EditorClassIdentifier: 
   spawnChance: 3
-  tiles: []
+  tiles:
+  - {fileID: 11400000, guid: 951b89bcfa9fc7241b3b3bb4b891b60e, type: 2}
   north: []
   east: []
   south: []

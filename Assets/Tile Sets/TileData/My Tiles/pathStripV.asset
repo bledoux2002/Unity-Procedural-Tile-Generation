@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: pathStripV
   m_EditorClassIdentifier: 
   spawnChance: 3
-  tiles: []
+  tiles:
+  - {fileID: 11400000, guid: e86b3df73c82c1d479297a305ea0ecd3, type: 2}
   north: []
   east: []
   south: []
