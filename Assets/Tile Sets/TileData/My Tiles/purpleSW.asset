@@ -15,20 +15,11 @@ MonoBehaviour:
   spawnChance: 3
   tiles:
   - {fileID: 11400000, guid: a68b9c7101e0e8d41842481e21b0af97, type: 2}
-  north:
-  - {fileID: 11400000, guid: 9e1da17f0fa7350468e9c77aca826b9d, type: 2}
-  east:
-  - {fileID: 11400000, guid: 44bd8f7bbc24da9439234b17ea5c1942, type: 2}
-  south:
-  - {fileID: 11400000, guid: e4112d54eb8fd5e4a88853b689ee3df1, type: 2}
-  - {fileID: 11400000, guid: 403504a8e51baa24d8bd1b0ffeb4e1a4, type: 2}
-  west:
-  - {fileID: 11400000, guid: e4112d54eb8fd5e4a88853b689ee3df1, type: 2}
-  - {fileID: 11400000, guid: 403504a8e51baa24d8bd1b0ffeb4e1a4, type: 2}
-  reqTiles:
-  - {fileID: 11400000, guid: 9e1da17f0fa7350468e9c77aca826b9d, type: 2}
-  - {fileID: 11400000, guid: 5b1c5b708278b95428a8e02902448551, type: 2}
-  - {fileID: 11400000, guid: 44bd8f7bbc24da9439234b17ea5c1942, type: 2}
+  north: []
+  east: []
+  south: []
+  west: []
+  reqTiles: []
   reqTilesCoords:
   - {x: 0, y: 1, z: 0}
   - {x: 1, y: 1, z: 0}
