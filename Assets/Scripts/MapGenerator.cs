@@ -123,16 +123,20 @@ public class MapGenerator : MonoBehaviour
     TileBase generateTile(int x, int y)
     {
         //List of lists of TileBases, will be used to find intersect between all sets of compatible tiles for edges of adjacent tiles
-        List<TileBase[]> tileLists = new List<TileBase[]>();
+        List<List<TileBase>> tileLists = new List<List<TileBase>>();
 
         //if there's a tile on a given side, add the list of edge-compatible tiles to tileLists
         //catch, empty list, don't add to tileLists
         try
         {
             TileData[] n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
+            tileLists[0] = new List<TileBase>();
             for (int i = 0; i < n.Length; i++)
             {
-                tileLists.Add(n[i].tiles);
+                for (int j = 0; j < n[i].tiles.Length; j++)
+                {
+                    tileLists[0].Add(n[i].tiles[j]);
+                }
             }
             Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
         }
@@ -145,9 +149,13 @@ public class MapGenerator : MonoBehaviour
         try
         {
             TileData[] e = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y, 0))].west;
+            tileLists[1] = new List<TileBase>();
             for (int i = 0; i < e.Length; i++)
             {
-                tileLists.Add(e[i].tiles);
+                for (int j = 0; j < e[i].tiles.Length; j++)
+                {
+                    tileLists[1].Add(e[i].tiles[j]);
+                }
             }
             Debug.Log(e.Length + " compatible tiles east of " + new Vector2Int(x, y));
         }
@@ -160,9 +168,13 @@ public class MapGenerator : MonoBehaviour
         try
         {
             TileData[] s = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y - 1, 0))].north;
+            tileLists[2] = new List<TileBase>();
             for (int i = 0; i < s.Length; i++)
             {
-                tileLists.Add(s[i].tiles);
+                for (int j = 0; j < s[i].tiles.Length; j++)
+                {
+                    tileLists[2].Add(s[i].tiles[j]);
+                }
             }
             Debug.Log(s.Length + " compatible tiles south of " + new Vector2Int(x, y));
         }
@@ -175,14 +187,18 @@ public class MapGenerator : MonoBehaviour
         try
         {
             TileData[] w = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y, 0))].east;
-            Debug.Log("Length of w = " + w.Length);
+            //Debug.Log("Length of w = " + w.Length);
+            tileLists[3] = new List<TileBase>();
             for (int i = 0; i < w.Length; i++)
             {
-                tileLists.Add(w[i].tiles);
-                Debug.Log("there are " + w[i].tiles.Length + "tiles west"); //PROBLEM AREA
+                for (int j = 0; j < w[i].tiles.Length; j++)
+                {
+                    tileLists[3].Add(w[i].tiles[j]);
+                }
+                //Debug.Log("there are " + w[i].tiles.Length + "tiles west"); //PROBLEM AREA
             }
             Debug.Log(w.Length + " compatible tiles west of " + new Vector2Int(x, y));
-            //Debug.Log("Tile list length = " + tileLists.Count);
+            Debug.Log("Tile list length = " + tileLists.Count);
         }
         catch
         {
@@ -259,9 +275,9 @@ public class MapGenerator : MonoBehaviour
             {
                 for (int i = 1; i < tileLists.Count(); i++)
                 {
-
+                    //FINDING INTERSECT BETWEEN EACH INDIVIDUAL TILE?
                     IEnumerable<TileBase> temp = tileLists.ElementAt(i);
-                    Debug.Log("temp length = " + temp.Count() + ", tilelist length = " + tileLists[i].Length);
+                    Debug.Log("temp length = " + temp.Count() + ", tilelist length = " + tileLists[i].Count());
                     compTiles = compTiles.Intersect(temp);
                 }
             }
