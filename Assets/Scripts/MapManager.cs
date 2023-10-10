@@ -31,6 +31,7 @@ public class MapManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        /*
         if(Input.GetMouseButtonDown(0))
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -45,5 +46,6 @@ public class MapManager : MonoBehaviour
             
             Debug.Log("Number of compatible tiles on each edge of " + gridPosition + " are " + n + e + s + w);
         }
+        */
     }
 }
