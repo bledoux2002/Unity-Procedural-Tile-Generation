@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
   m_Name: pathEndS
   m_EditorClassIdentifier: 
-  spawnChance: 3
+  spawnChance: 6
   tiles:
   - {fileID: 11400000, guid: bdf2fbbbc3796854aa4f35fee65c2164, type: 2}
   north:
@@ -41,6 +41,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e96b3544773751e44bea4218f7c4884e, type: 2}
   - {fileID: 11400000, guid: 5851bf4ddbf9be442ac18fd9b18bcca2, type: 2}
   - {fileID: 11400000, guid: a91cfa7f365cd344f98f56fe710e1e12, type: 2}
+  - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}
+  - {fileID: 11400000, guid: d79e98a7b460152439499ea12cc820da, type: 2}
+  - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}
   south:
   - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
   - {fileID: 11400000, guid: 8b229f46af56378479684e66edabdfcf, type: 2}
@@ -57,6 +60,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
   - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
   - {fileID: 11400000, guid: a91cfa7f365cd344f98f56fe710e1e12, type: 2}
+  - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}
+  - {fileID: 11400000, guid: d79e98a7b460152439499ea12cc820da, type: 2}
+  - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}
   west:
   - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
   - {fileID: 11400000, guid: a319a6fdfeecf68459028084a611bd5e, type: 2}
@@ -74,5 +80,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e10810361b385644f98ecb24adebad10, type: 2}
   - {fileID: 11400000, guid: ef8f979550246ab43b59d02a10815236, type: 2}
   - {fileID: 11400000, guid: 8b229f46af56378479684e66edabdfcf, type: 2}
+  - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}
+  - {fileID: 11400000, guid: d79e98a7b460152439499ea12cc820da, type: 2}
+  - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}
   reqTiles: []
   reqTilesCoords: []

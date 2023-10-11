@@ -39,8 +39,8 @@ public class MapGenerator : MonoBehaviour
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
                 if (map.GetTile(new Vector3Int (x + origin.x, y + origin.y, 0)) == null)
                 {
-                    //try
-                    //{
+                    try
+                    {
                         TileBase changeTile = generateTile(x + origin.x, y + origin.y);
                         map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
                         int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
@@ -52,11 +52,11 @@ public class MapGenerator : MonoBehaviour
                                 map.SetTile(new Vector3Int(x + origin.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + origin.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i].tiles[index]);
                             }
                         }
-                    //}
-                    //catch
-                    //{
-                   //     Debug.Log("Impossible combination at " + new Vector2Int(x, y));
-                    //}
+                    }
+                    catch
+                    {
+                        Debug.Log("Impossible combination at " + new Vector2Int(x, y));
+                    }
                 }
             }
         }
@@ -65,7 +65,6 @@ public class MapGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
         Vector3Int currentCell = map.WorldToCell(cam.transform.position);
 
         for (int y = radiusY; y >= -radiusY; y--)
@@ -98,7 +97,6 @@ public class MapGenerator : MonoBehaviour
         }
 
         //map.SetTile(currentCell, changeTile);
-        */
     }
 
     //Used to round out the values inputted (prob a built-in way to do this but it makes me feel smart)
@@ -141,13 +139,13 @@ public class MapGenerator : MonoBehaviour
                     tempList.Add(n[i].tiles[j]);
                 }
             }
-            Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
+            //Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
             tileLists.Add(tempList);
         }
         catch
         {
             TileData[] n = new TileData[0];
-            Debug.Log("Empty tile north of " + new Vector2Int(x, y));
+            //Debug.Log("Empty tile north of " + new Vector2Int(x, y));
         }
         
         try
@@ -162,13 +160,13 @@ public class MapGenerator : MonoBehaviour
                     tempList.Add(e[i].tiles[j]);
                 }
             }
-            Debug.Log(e.Length + " compatible tiles east of " + new Vector2Int(x, y));
+            //Debug.Log(e.Length + " compatible tiles east of " + new Vector2Int(x, y));
             tileLists.Add(tempList);
         }
         catch
         {
             TileData[] e = new TileData[0];
-            Debug.Log("Empty tile east of " + new Vector2Int(x, y));
+            //Debug.Log("Empty tile east of " + new Vector2Int(x, y));
         }
 
         try
@@ -183,13 +181,13 @@ public class MapGenerator : MonoBehaviour
                     tempList.Add(s[i].tiles[j]);
                 }
             }
-            Debug.Log(s.Length + " compatible tiles south of " + new Vector2Int(x, y));
+            //Debug.Log(s.Length + " compatible tiles south of " + new Vector2Int(x, y));
             tileLists.Add(tempList);
         }
         catch
         {
             TileData[] s = new TileData[0];
-            Debug.Log("Empty tile south of " + new Vector2Int(x, y));
+            //Debug.Log("Empty tile south of " + new Vector2Int(x, y));
         }
 
         try
@@ -207,14 +205,14 @@ public class MapGenerator : MonoBehaviour
                 }
                 Debug.Log("there are " + w[i].tiles.Length + "tiles west"); //PROBLEM AREA
             }
-            Debug.Log(w.Length + " compatible tiles west of " + new Vector2Int(x, y));
-            Debug.Log("Tile list length = " + tileLists.Count);
+            //Debug.Log(w.Length + " compatible tiles west of " + new Vector2Int(x, y));
+            //Debug.Log("Tile list length = " + tileLists.Count);
             tileLists.Add(tempList);
         }
         catch
         {
             TileData[] w = new TileData[0];
-            Debug.Log("Empty tile west of " + new Vector2Int(x, y));
+            //Debug.Log("Empty tile west of " + new Vector2Int(x, y));
         }
 
         //CORNER CHECKS ARE NOT NECESSARY, NEXT 4 TRY-CATCHES ARE REDUNDANT
@@ -288,12 +286,12 @@ public class MapGenerator : MonoBehaviour
                 {
                     //FINDING INTERSECT BETWEEN EACH INDIVIDUAL TILE?
                     IEnumerable<TileBase> temp = tileLists.ElementAt(i);
-                    Debug.Log("temp length = " + temp.Count() + ", tilelist length = " + tileLists[i].Count());
+                    //Debug.Log("temp length = " + temp.Count() + ", tilelist length = " + tileLists[i].Count());
                     compTiles = compTiles.Intersect(temp);
                 }
             }
 
-            Debug.Log(compTiles.Count());
+            //Debug.Log(compTiles.Count());
 
             //select a random tile from compTiles to return
             //THIS WILL LATER BE REPLACED WITH GAUSSIAN DISTRIBUTION
@@ -334,8 +332,8 @@ public class MapGenerator : MonoBehaviour
 
             //try
             //{
-            Debug.Log(index);
-            Debug.Log(compTiles.Count());
+            //Debug.Log(index);
+            //Debug.Log(compTiles.Count());
                 return compTiles.ElementAt(index);
             /*}
             catch

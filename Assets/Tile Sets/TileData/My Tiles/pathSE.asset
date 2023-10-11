@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
   m_Name: pathSE
   m_EditorClassIdentifier: 
-  spawnChance: 3
+  spawnChance: 6
   tiles:
   - {fileID: 11400000, guid: fbe2126bbddb5f2449a469fc5dc25e95, type: 2}
   north:
@@ -36,6 +36,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a0157162b08ff84478f8eac3cba82032, type: 2}
   - {fileID: 11400000, guid: e96b3544773751e44bea4218f7c4884e, type: 2}
   - {fileID: 11400000, guid: 5851bf4ddbf9be442ac18fd9b18bcca2, type: 2}
+  - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}
+  - {fileID: 11400000, guid: d79e98a7b460152439499ea12cc820da, type: 2}
+  - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}
   south:
   - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
   - {fileID: 11400000, guid: 8b229f46af56378479684e66edabdfcf, type: 2}
@@ -52,6 +55,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
   - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
   - {fileID: 11400000, guid: a91cfa7f365cd344f98f56fe710e1e12, type: 2}
+  - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}
+  - {fileID: 11400000, guid: d79e98a7b460152439499ea12cc820da, type: 2}
+  - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}
   west:
   - {fileID: 11400000, guid: 85009b85f798dbe45a3ca367e8bae33e, type: 2}
   - {fileID: 11400000, guid: 438b66fd7e0b62042835d29f49be76aa, type: 2}
