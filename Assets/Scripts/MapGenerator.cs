@@ -132,15 +132,17 @@ public class MapGenerator : MonoBehaviour
         try
         {
             TileData[] n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
-            tileLists[0] = new List<TileBase>();
+            //tileLists[0] = new List<TileBase>();
+            List<TileBase> tempList = new List<TileBase>();
             for (int i = 0; i < n.Length; i++)
             {
                 for (int j = 0; j < n[i].tiles.Length; j++)
                 {
-                    tileLists[0].Add(n[i].tiles[j]);
+                    tempList.Add(n[i].tiles[j]);
                 }
             }
             Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
+            tileLists.Add(tempList);
         }
         catch
         {
@@ -151,15 +153,17 @@ public class MapGenerator : MonoBehaviour
         try
         {
             TileData[] e = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y, 0))].west;
-            tileLists[1] = new List<TileBase>();
+            //tileLists[1] = new List<TileBase>();
+            List<TileBase> tempList = new List<TileBase>();
             for (int i = 0; i < e.Length; i++)
             {
                 for (int j = 0; j < e[i].tiles.Length; j++)
                 {
-                    tileLists[1].Add(e[i].tiles[j]);
+                    tempList.Add(e[i].tiles[j]);
                 }
             }
             Debug.Log(e.Length + " compatible tiles east of " + new Vector2Int(x, y));
+            tileLists.Add(tempList);
         }
         catch
         {
@@ -170,15 +174,17 @@ public class MapGenerator : MonoBehaviour
         try
         {
             TileData[] s = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y - 1, 0))].north;
-            tileLists[2] = new List<TileBase>();
+            //tileLists[2] = new List<TileBase>();
+            List<TileBase> tempList = new List<TileBase>();
             for (int i = 0; i < s.Length; i++)
             {
                 for (int j = 0; j < s[i].tiles.Length; j++)
                 {
-                    tileLists[2].Add(s[i].tiles[j]);
+                    tempList.Add(s[i].tiles[j]);
                 }
             }
             Debug.Log(s.Length + " compatible tiles south of " + new Vector2Int(x, y));
+            tileLists.Add(tempList);
         }
         catch
         {
