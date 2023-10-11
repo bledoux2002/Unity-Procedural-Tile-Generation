@@ -15,7 +15,7 @@ public class TileData : ScriptableObject
     public TileBase[] tiles;
 
     // These lists define compatible tiles on each edge (north can only be paired with tiles 1, 4, 17, while east can only be paired with tiles 3, 18, 35)
-    public TileData[] north, east, south, west/*, northwest, northeast, southeast, southwest*/;
+    public TileData[] north, east, south, west, northwest, northeast, southeast, southwest;
 
     //CORNER CHECKS ARE REDUNDANT, CAN BE REMOVED BUT I'M LEAVING THEM OUT OF SPITE
 

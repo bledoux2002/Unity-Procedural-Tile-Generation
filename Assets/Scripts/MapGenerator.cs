@@ -203,7 +203,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     tempList.Add(w[i].tiles[j]);
                 }
-                Debug.Log("there are " + w[i].tiles.Length + "tiles west"); //PROBLEM AREA
+                //Debug.Log("there are " + w[i].tiles.Length + "tiles west"); //PROBLEM AREA
             }
             //Debug.Log(w.Length + " compatible tiles west of " + new Vector2Int(x, y));
             //Debug.Log("Tile list length = " + tileLists.Count);
@@ -216,57 +216,85 @@ public class MapGenerator : MonoBehaviour
         }
 
         //ADD CORNER CHECKS, THIS IS GONNA SUCK
-
-        //CORNER CHECKS ARE NOT NECESSARY, NEXT 4 TRY-CATCHES ARE REDUNDANT
-        /*
-
         try
         {
-            TileBase[] nw = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y + 1, 0))].southeast;
-            tileLists.Add(nw);
+            TileData[] nw = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y + 1, 0))].southeast;
+            List<TileBase> tempList = new List<TileBase>();
+            for (int i = 0; i < nw.Length; i++)
+            {
+                for (int j = 0; j < nw[i].tiles.Length; j++)
+                {
+                    tempList.Add(nw[i].tiles[j]);
+                }
+            }
             //Debug.Log(nw.Length + " compatible tiles northwest of " + new Vector2Int(x, y));
+            tileLists.Add(tempList);
         }
         catch
         {
-            TileBase[] nw = new TileBase[0];
+            TileData[] nw = new TileData[0];
             //Debug.Log("Empty tile northwest of " + new Vector2Int(x, y));
         }
 
         try
         {
-            TileBase[] ne = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y + 1, 0))].southwest;
-            tileLists.Add(ne);
-            //Debug.Log(ne.Length + " compatible tiles northeast of " + new Vector2Int(x, y));
+            TileData[] ne = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y + 1, 0))].southwest;
+            List<TileBase> tempList = new List<TileBase>();
+            for (int i = 0; i < ne.Length; i++)
+            {
+                for (int j = 0; j < ne[i].tiles.Length; j++)
+                {
+                    tempList.Add(ne[i].tiles[j]);
+                }
+            }
+            //Debug.Log(nw.Length + " compatible tiles northwest of " + new Vector2Int(x, y));
+            tileLists.Add(tempList);
         }
         catch
         {
-            TileBase[] nw = new TileBase[0];
+            TileData[] ne = new TileData[0];
             //Debug.Log("Empty tile northeast of " + new Vector2Int(x, y));
         }
 
         try
         {
-            TileBase[] se = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y - 1, 0))].northwest;
-            tileLists.Add(se);
-            //Debug.Log(se.Length + " compatible tiles southeast of " + new Vector2Int(x, y));
+            TileData[] se = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y - 1, 0))].northwest;
+            List<TileBase> tempList = new List<TileBase>();
+            for (int i = 0; i < se.Length; i++)
+            {
+                for (int j = 0; j < se[i].tiles.Length; j++)
+                {
+                    tempList.Add(se[i].tiles[j]);
+                }
+            }
+            //Debug.Log(nw.Length + " compatible tiles northwest of " + new Vector2Int(x, y));
+            tileLists.Add(tempList);
         }
         catch
         {
-            TileBase[] se = new TileBase[0];
+            TileData[] se = new TileData[0];
             //Debug.Log("Empty tile southeast of " + new Vector2Int(x, y));
         }
 
         try
         {
-            TileBase[] sw = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y - 1, 0))].northeast;
-            tileLists.Add(sw);
-            //Debug.Log(sw.Length + " compatible tiles southwest of " + new Vector2Int(x, y));
+            TileData[] sw = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y - 1, 0))].northeast;
+            List<TileBase> tempList = new List<TileBase>();
+            for (int i = 0; i < sw.Length; i++)
+            {
+                for (int j = 0; j < sw[i].tiles.Length; j++)
+                {
+                    tempList.Add(sw[i].tiles[j]);
+                }
+            }
+            //Debug.Log(nw.Length + " compatible tiles northwest of " + new Vector2Int(x, y));
+            tileLists.Add(tempList);
         }
         catch
         {
-            TileBase[] sw = new TileBase[0];
+            TileData[] sw = new TileData[0];
             //Debug.Log("Empty tile southwest of " + new Vector2Int(x, y));
-        }*/
+        }
 
         //List of compatible tiles with adjacent tiles
         IEnumerable<TileBase> compTiles;
