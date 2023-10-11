@@ -215,6 +215,8 @@ public class MapGenerator : MonoBehaviour
             //Debug.Log("Empty tile west of " + new Vector2Int(x, y));
         }
 
+        //ADD CORNER CHECKS, THIS IS GONNA SUCK
+
         //CORNER CHECKS ARE NOT NECESSARY, NEXT 4 TRY-CATCHES ARE REDUNDANT
         /*
 

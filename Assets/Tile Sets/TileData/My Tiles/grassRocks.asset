@@ -16,7 +16,7 @@ MonoBehaviour:
   tiles:
   - {fileID: 11400000, guid: 6956efefb20fa7e488cf260f656a8027, type: 2}
   north:
-  - {fileID: 11400000}
+  - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
   - {fileID: 11400000, guid: cb5b659d39768a7498e61fae42f24d71, type: 2}
   - {fileID: 11400000, guid: 661c486940788bc48a3b3c60ebf32ae6, type: 2}
   - {fileID: 11400000, guid: a0157162b08ff84478f8eac3cba82032, type: 2}
@@ -35,7 +35,7 @@ MonoBehaviour:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}
   east:
-  - {fileID: 11400000}
+  - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
   - {fileID: 11400000, guid: a319a6fdfeecf68459028084a611bd5e, type: 2}
   - {fileID: 11400000, guid: 15297830ae2273d49b2187286b4f645c, type: 2}
   - {fileID: 11400000, guid: 5d75efa7e0be462478669ac0c62f8a58, type: 2}
@@ -55,7 +55,7 @@ MonoBehaviour:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}
   south:
-  - {fileID: 11400000}
+  - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
   - {fileID: 11400000, guid: 407fbc2b43d680949927713256411a1b, type: 2}
   - {fileID: 11400000, guid: 8b229f46af56378479684e66edabdfcf, type: 2}
   - {fileID: 11400000, guid: a319a6fdfeecf68459028084a611bd5e, type: 2}
@@ -74,7 +74,7 @@ MonoBehaviour:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}
   west:
-  - {fileID: 11400000}
+  - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
   - {fileID: 11400000, guid: ef8f979550246ab43b59d02a10815236, type: 2}
   - {fileID: 11400000, guid: 8b229f46af56378479684e66edabdfcf, type: 2}
   - {fileID: 11400000, guid: a319a6fdfeecf68459028084a611bd5e, type: 2}
