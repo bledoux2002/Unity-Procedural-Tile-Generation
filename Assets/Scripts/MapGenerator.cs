@@ -414,7 +414,7 @@ public class MapGenerator : MonoBehaviour
         generateTile(pair.Key[0], pair.Key[1]);
     }
 
-    public static double RandomGaussian()
+    public static double RandomGaussian() //figure out how the dist actuall works, make it so 0 is never spawn, and up to some number is more likely
     {
         double u1 = Random.Range(0f, 1f);
         double u2 = Random.Range(0f, 1f);
@@ -423,7 +423,4 @@ public class MapGenerator : MonoBehaviour
 
         return randNormal;
     }
-
-    //hash table constantly updating with loaded tiles in rendered area, values shift over as needed
-    //tile class with tile component, hashtable/variables/array of corner values
 }
