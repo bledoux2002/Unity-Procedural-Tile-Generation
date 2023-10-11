@@ -15,9 +15,34 @@ MonoBehaviour:
   spawnChance: 5
   tiles:
   - {fileID: 11400000, guid: 66d4cf4beef9fe14dba1762403228273, type: 2}
-  north: []
-  east: []
-  south: []
-  west: []
+  north:
+  - {fileID: 11400000, guid: 2d674df98f9a5a84f9265b00960e1e1d, type: 2}
+  - {fileID: 11400000, guid: fc9ae69af9c25d846a90666924b90e60, type: 2}
+  - {fileID: 11400000, guid: 80c6f2918c5d58742a817e4122f9c576, type: 2}
+  - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
+  east:
+  - {fileID: 11400000, guid: 33048ab2a6584ae45bd4e71524b9076a, type: 2}
+  - {fileID: 11400000, guid: 661c486940788bc48a3b3c60ebf32ae6, type: 2}
+  - {fileID: 11400000}
+  south:
+  - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
+  - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
+  - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
+  - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
+  - {fileID: 11400000, guid: a3e9eae066568854fa1afcd77b3be18b, type: 2}
+  - {fileID: 11400000, guid: 5e04c2898d50186458705961410471a8, type: 2}
+  - {fileID: 11400000, guid: eb5eacbca70dd624f86c8a6c00681f06, type: 2}
+  - {fileID: 11400000, guid: 8b229f46af56378479684e66edabdfcf, type: 2}
+  - {fileID: 11400000, guid: 5d75efa7e0be462478669ac0c62f8a58, type: 2}
+  - {fileID: 11400000, guid: a319a6fdfeecf68459028084a611bd5e, type: 2}
+  - {fileID: 11400000, guid: 407fbc2b43d680949927713256411a1b, type: 2}
+  - {fileID: 11400000, guid: ac4b23a9a850aad4fb854b11f49d621e, type: 2}
+  - {fileID: 11400000, guid: 0919f625131a934488ebaf76927e4ed1, type: 2}
+  - {fileID: 11400000, guid: e615c75dda685f74394da8a2a6b952e7, type: 2}
+  - {fileID: 11400000, guid: a91cfa7f365cd344f98f56fe710e1e12, type: 2}
+  west:
+  - {fileID: 11400000}
+  - {fileID: 11400000, guid: a0157162b08ff84478f8eac3cba82032, type: 2}
+  - {fileID: 11400000, guid: fb1cdd982c2cd0b4ba62ece4b4d87bce, type: 2}
   reqTiles: []
   reqTilesCoords: []

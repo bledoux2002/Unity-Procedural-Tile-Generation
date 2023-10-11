@@ -144,7 +144,7 @@ public class MapGenerator : MonoBehaviour
         }
         catch
         {
-            TileBase[] n = new TileBase[0];
+            TileData[] n = new TileData[0];
             Debug.Log("Empty tile north of " + new Vector2Int(x, y));
         }
         
@@ -163,7 +163,7 @@ public class MapGenerator : MonoBehaviour
         }
         catch
         {
-            TileBase[] e = new TileBase[0];
+            TileData[] e = new TileData[0];
             Debug.Log("Empty tile east of " + new Vector2Int(x, y));
         }
 
@@ -182,31 +182,34 @@ public class MapGenerator : MonoBehaviour
         }
         catch
         {
-            TileBase[] s = new TileBase[0];
+            TileData[] s = new TileData[0];
             Debug.Log("Empty tile south of " + new Vector2Int(x, y));
         }
 
-        //try
-        //{
+        try
+        {
             TileData[] w = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y, 0))].east;
-            //Debug.Log("Length of w = " + w.Length);
-            tileLists[3] = new List<TileBase>();
+            //Debug.Log("Length of w = " + w.Length + "type = " + w[0].GetType());
+            //tileLists[3] = new List<TileBase>(); //ERROR HERE
+            List<TileBase> tempList = new List<TileBase>();
+            //Debug.Log("Length of tileLists = " + tileLists.Count);
             for (int i = 0; i < w.Length; i++)
             {
                 for (int j = 0; j < w[i].tiles.Length; j++)
                 {
-                    tileLists[3].Add(w[i].tiles[j]);
+                    tempList.Add(w[i].tiles[j]);
                 }
                 Debug.Log("there are " + w[i].tiles.Length + "tiles west"); //PROBLEM AREA
             }
             Debug.Log(w.Length + " compatible tiles west of " + new Vector2Int(x, y));
             Debug.Log("Tile list length = " + tileLists.Count);
-        /*}
+            tileLists.Add(tempList);
+        }
         catch
         {
-            TileBase[] w = new TileBase[0];
+            TileData[] w = new TileData[0];
             Debug.Log("Empty tile west of " + new Vector2Int(x, y));
-        }*/
+        }
 
         //CORNER CHECKS ARE NOT NECESSARY, NEXT 4 TRY-CATCHES ARE REDUNDANT
         /*

@@ -15,9 +15,23 @@ MonoBehaviour:
   spawnChance: 6
   tiles:
   - {fileID: 11400000, guid: 7ba0c7b6f17741f4f991c2ce20e3700a, type: 2}
-  north: []
-  east: []
-  south: []
-  west: []
+  north:
+  - {fileID: 11400000, guid: 33048ab2a6584ae45bd4e71524b9076a, type: 2}
+  - {fileID: 11400000, guid: e96b3544773751e44bea4218f7c4884e, type: 2}
+  - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
+  east:
+  - {fileID: 11400000, guid: 2d674df98f9a5a84f9265b00960e1e1d, type: 2}
+  - {fileID: 11400000, guid: 2035111cfc0a87345820b8a0a66983a9, type: 2}
+  - {fileID: 11400000, guid: fc9ae69af9c25d846a90666924b90e60, type: 2}
+  - {fileID: 11400000, guid: fb1cdd982c2cd0b4ba62ece4b4d87bce, type: 2}
+  south:
+  - {fileID: 11400000, guid: 2d674df98f9a5a84f9265b00960e1e1d, type: 2}
+  - {fileID: 11400000, guid: fb1cdd982c2cd0b4ba62ece4b4d87bce, type: 2}
+  - {fileID: 11400000, guid: 33048ab2a6584ae45bd4e71524b9076a, type: 2}
+  - {fileID: 11400000, guid: cb5b659d39768a7498e61fae42f24d71, type: 2}
+  west:
+  - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
+  - {fileID: 11400000, guid: fc9ae69af9c25d846a90666924b90e60, type: 2}
+  - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
   reqTiles: []
   reqTilesCoords: []
