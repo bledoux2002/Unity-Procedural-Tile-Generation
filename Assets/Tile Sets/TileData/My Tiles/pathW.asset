@@ -26,7 +26,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ef8f979550246ab43b59d02a10815236, type: 2}
   south:
   - {fileID: 11400000}
-  - {fileID: 11400000, guid: 8e98ea557c972e54a817b7255ff89a15, type: 2}
+  - {fileID: 11400000, guid: b8a180fc9db06e842b9b5c0724eb61b7, type: 2}
   - {fileID: 11400000, guid: 58eafd9a5ef0ca74abdeb8af7c7d83f9, type: 2}
   west:
   - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
