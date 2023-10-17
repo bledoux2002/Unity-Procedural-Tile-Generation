@@ -12,13 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
   m_Name: purpleNW
   m_EditorClassIdentifier: 
-  spawnChance: 6
+  spawnChance: 3
   tiles:
   - {fileID: 11400000, guid: 9e1da17f0fa7350468e9c77aca826b9d, type: 2}
   north: []
   east: []
   south: []
   west: []
+  northwest: []
+  northeast: []
+  southeast: []
+  southwest: []
   reqTiles: []
   reqTilesCoords:
   - {x: 1, y: 0, z: 0}
