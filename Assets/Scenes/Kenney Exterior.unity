@@ -315,8 +315,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eed7d3b2b581854788f09ca233f1a37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radiusX: 50
-  radiusY: 50
+  radiusX: 4
+  radiusY: 3
   map: {fileID: 1294846427}
 --- !u!114 &338919190
 MonoBehaviour:

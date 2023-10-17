@@ -32,7 +32,7 @@ MonoBehaviour:
   west:
   - {fileID: 11400000, guid: fb1cdd982c2cd0b4ba62ece4b4d87bce, type: 2}
   - {fileID: 11400000, guid: cb5b659d39768a7498e61fae42f24d71, type: 2}
-  - {fileID: 11400000, guid: 661c486940788bc48a3b3c60ebf32ae6, type: 2}
+  - {fileID: 11400000, guid: a0157162b08ff84478f8eac3cba82032, type: 2}
   northwest:
   - {fileID: 11400000, guid: 2d674df98f9a5a84f9265b00960e1e1d, type: 2}
   - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
