@@ -132,6 +132,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ac4b23a9a850aad4fb854b11f49d621e, type: 2}
   - {fileID: 11400000, guid: 0919f625131a934488ebaf76927e4ed1, type: 2}
   - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
+  - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
+  - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
   southwest:
   - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}
   - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
@@ -157,5 +159,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ac4b23a9a850aad4fb854b11f49d621e, type: 2}
   - {fileID: 11400000, guid: 0919f625131a934488ebaf76927e4ed1, type: 2}
   - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
+  - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
+  - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
   reqTiles: []
   reqTilesCoords: []
