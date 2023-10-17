@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
   m_Name: pathSW
   m_EditorClassIdentifier: 
-  spawnChance: 3
+  spawnChance: 0
   tiles:
   - {fileID: 11400000, guid: 67f5028eecf2d644da41ff27dc598b06, type: 2}
   north:
@@ -84,6 +84,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2035111cfc0a87345820b8a0a66983a9, type: 2}
   - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
   - {fileID: 11400000, guid: 661c486940788bc48a3b3c60ebf32ae6, type: 2}
+  - {fileID: 11400000, guid: 85009b85f798dbe45a3ca367e8bae33e, type: 2}
   northeast:
   - {fileID: 11400000, guid: 03926d34592fdd543ba36b7ebfe8e0e8, type: 2}
   - {fileID: 11400000, guid: 85009b85f798dbe45a3ca367e8bae33e, type: 2}
@@ -113,6 +114,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
   - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
   - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
+  - {fileID: 11400000, guid: 58eafd9a5ef0ca74abdeb8af7c7d83f9, type: 2}
   southwest:
   - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}
   - {fileID: 11400000, guid: ddf4be682b629a549b685c290af279ca, type: 2}
