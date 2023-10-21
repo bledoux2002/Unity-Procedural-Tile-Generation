@@ -23,7 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a319a6fdfeecf68459028084a611bd5e, type: 2}
   - {fileID: 11400000, guid: d2092164a01edd646b3329251c4a83e1, type: 2}
   - {fileID: 11400000, guid: eb5eacbca70dd624f86c8a6c00681f06, type: 2}
-  - {fileID: 11400000, guid: 82ab092a5349c53468d5d6ebbf320091, type: 2}
+  - {fileID: 11400000}
   east:
   - {fileID: 11400000, guid: 508bc725d1d6c5243937e16baae75e1c, type: 2}
   - {fileID: 11400000, guid: a3e9eae066568854fa1afcd77b3be18b, type: 2}
