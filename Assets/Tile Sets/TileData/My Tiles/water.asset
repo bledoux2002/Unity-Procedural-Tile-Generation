@@ -20,7 +20,7 @@ MonoBehaviour:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
   - {fileID: 11400000, guid: fc9ae69af9c25d846a90666924b90e60, type: 2}
-  - {fileID: 11400000, guid: fb1cdd982c2cd0b4ba62ece4b4d87bce, type: 2}
+  - {fileID: 11400000, guid: 80c6f2918c5d58742a817e4122f9c576, type: 2}
   east:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 2035111cfc0a87345820b8a0a66983a9, type: 2}
