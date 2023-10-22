@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
   m_Name: water
   m_EditorClassIdentifier: 
-  spawnChance: 3
+  spawnChance: 2
   tiles:
   - {fileID: 11400000, guid: 25b54b78c0ac4994d8725242a0b93249, type: 2}
   - {fileID: 11400000, guid: 79e765cac6dcc2a45a7d9bd85a64c75e, type: 2}
