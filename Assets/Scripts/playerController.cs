@@ -5,8 +5,19 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Vector2 input;
-    private bool isXAxisInUse = false;
-    private bool isYAxisInUse = false;
+
+    public float moveSpeed;
+    public LayerMask solidObjectsLayer;
+    public LayerMask grassLayer;
+
+    private bool isMoving;
+
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -17,33 +28,54 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        input.x = Input.GetAxisRaw("Horizontal");
-        input.y = Input.GetAxisRaw("Vertical");
-        if (input.x != 0) { input.y = 0; } //remove diagonal movement
-        if (input.y != 0) { input.x = 0; }
-        if (input.x != 0)
+
+        if (!isMoving)
         {
-            if (isXAxisInUse == false)
+            input.x = Input.GetAxisRaw("Horizontal");
+            input.y = Input.GetAxisRaw("Vertical");
+
+            //remove diagonal movement
+            if (input.x != 0) input.y = 0;
+
+            if (input != Vector2.zero)
             {
-                transform.position = transform.position + new Vector3(input.x, input.y, 0);
-                isXAxisInUse = true;
+                animator.SetFloat("moveX", input.x);
+                animator.SetFloat("moveY", input.y);
+                var targetPos = transform.position;
+                targetPos.x += input.x;
+                targetPos.y += input.y;
+
+                if (IsWalkable(targetPos))
+                {
+                    StartCoroutine(Move(targetPos));
+                }
             }
         }
-        if (input.x == 0)
+
+        animator.SetBool("isMoving", isMoving);
+    }
+
+    IEnumerator Move(Vector3 targetPos)
+    {
+        isMoving = true;
+
+        while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
         {
-            isXAxisInUse = false;
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+            yield return null;
         }
-        if (input.y != 0)
+        transform.position = targetPos;
+
+        isMoving = false;
+    }
+
+    private bool IsWalkable(Vector3 targetPos)
+    {
+        if (Physics2D.OverlapCircle(targetPos, 0.05f, solidObjectsLayer) != null) //radius cant be 0.2 or else you cant walk up at a solid object, you stop a cell before
         {
-            if (isYAxisInUse == false)
-            {
-                transform.position = transform.position + new Vector3(input.x, input.y, 0);
-                isYAxisInUse = true;
-            }
+            return false;
         }
-        if (input.y == 0)
-        {
-            isYAxisInUse = false;
-        }
+
+        return true;
     }
 }
