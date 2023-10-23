@@ -31,21 +31,6 @@ public class MapManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        /*
-        if(Input.GetMouseButtonDown(0))
-        {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPosition = map.WorldToCell(mousePosition);
 
-            TileBase clickedTile = map.GetTile(gridPosition);
-
-            int n = dataFromTiles[clickedTile].north.Length;
-            int e = dataFromTiles[clickedTile].east.Length;
-            int s = dataFromTiles[clickedTile].south.Length;
-            int w = dataFromTiles[clickedTile].west.Length;
-            
-            Debug.Log("Number of compatible tiles on each edge of " + gridPosition + " are " + n + e + s + w);
-        }
-        */
     }
 }

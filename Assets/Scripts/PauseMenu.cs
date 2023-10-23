@@ -1,12 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PauseMenu : MonoBehaviour
 {
     public static bool GamePaused = false;
 
     public GameObject PauseMenuUI;
+
+    public Tilemap fog;
+    //private TilemapRenderer fog;
+    private bool fogOn;
+
+    void OnAwake()
+    {
+        //fog = fogMap.GetComponent<TilemapRenderer>();
+        //fog.forceRenderingOff = true;
+        fogOn = true;
+    }
 
     // Update is called once per frame
     void Update()
@@ -20,6 +32,11 @@ public class PauseMenu : MonoBehaviour
             {
                 Pause();
             }
+        }
+
+        if (!fogOn)
+        {
+            fog.ClearAllTiles();
         }
     }
 
@@ -35,6 +52,19 @@ public class PauseMenu : MonoBehaviour
         PauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GamePaused = true;
+    }
+
+    public void ToggleFog()
+    {
+        if (fogOn)
+        {
+            //fog.SetColor(255, 255, 255, 0);
+            fogOn = false;
+        } else
+        {
+//            fog.SetColor(255, 255, 255, 255);
+            fogOn = true;
+        }
     }
 
     public void QuitGame()

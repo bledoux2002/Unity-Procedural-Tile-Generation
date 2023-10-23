@@ -9,11 +9,12 @@ using Random = UnityEngine.Random;
 public class MapGenerator : MonoBehaviour
 {
     private GameObject cam;
-    public int radiusX; //x range of tiles to check for generation
-    public int radiusY; //same but for y
+    public Vector2Int diameter; //range of tiles to generate
     private GameObject mapManagerObj;
     private MapManager mapManager;
-    [HideInInspector] public Tilemap map;
+    public Tilemap map;
+    public Tilemap fog;
+    public TileBase fogTile;
     private List<TileData> tileDatas;
     private Dictionary<TileBase, TileData> dataFromTiles;
     private Vector2Int origin;
@@ -31,25 +32,75 @@ public class MapGenerator : MonoBehaviour
     {
         origin.x = RoundValue(cam.transform.position.x);
         origin.y = RoundValue(cam.transform.position.y);
+        HideMap(origin);
+        SpiralGen(origin);
+    }
 
-        for (int y = radiusY; y >= -radiusY; y--)
+    // Update is called once per frame
+    void Update()
+    {
+        Vector3Int currentCell3D = map.WorldToCell(cam.transform.position);
+        Vector2Int currentCell = new Vector2Int(currentCell3D.x, currentCell3D.y);
+        HideMap(currentCell);
+        SpiralGen(currentCell);
+    }
+    
+    void HideMap(Vector2Int input)
+    {
+        for (int y = diameter.y + 1; y >= -diameter.y - 1; y--)
         {
-            for (int x = -radiusX; x <= radiusX; x++)
+            for (int x = -diameter.x - 1; x <= diameter.x + 1; x++)
             {
-                //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
-                if (map.GetTile(new Vector3Int (x + origin.x, y + origin.y, 0)) == null)
+                if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
+                {
+                    if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y, 0)) == null)
+                    {
+                        fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y, 0), fogTile);
+                    }
+                    if (fog.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
+                    {
+                        fog.SetTile(new Vector3Int(x + input.x, y + input.y, 0), fogTile);
+                    }
+                    if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0)) == null)
+                    {
+                        fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0), fogTile);
+                    }
+                    if (fog.GetTile(new Vector3Int(x + input.x, y + input.y - 1, 0)) == null)
+                    {
+                        fog.SetTile(new Vector3Int(x + input.x, y + input.y - 1, 0), fogTile);
+                    }
+                }
+            }
+        }
+    }
+
+    void SpiralGen(Vector2Int input)
+    {
+        /*
+        int x = 0;
+        int y = 0;
+        int dx = 0;
+        int dy = -1;
+
+        int range = Convert.ToInt32(Math.Pow(Math.Max(diameter.x, diameter.y), 2));
+        
+        for (int i = 0; i < range; i++)
+        {
+            if ((-diameter.x/2 < x && x <= diameter.x/2) && (-diameter.y/2 < y && y <= diameter.y / 2))
+            {
+                if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
                 {
                     try
                     {
-                        TileBase changeTile = generateTile(x + origin.x, y + origin.y);
-                        map.SetTile(new Vector3Int(x + origin.x, y + origin.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
+                        TileBase changeTile = generateTile(x + input.x, y + input.y);
+                        map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
                         int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
                         if (reqTilesNum > 0)
                         {
-                            for (int i = 0; i < reqTilesNum; i++)
+                            for (int j = 0; j < reqTilesNum; j++)
                             {
-                                int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles[changeTile].reqTiles[i].tiles.Count())));
-                                map.SetTile(new Vector3Int(x + origin.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + origin.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i].tiles[index]);
+                                int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles[changeTile].reqTiles[j].tiles.Count())));
+                                map.SetTile(new Vector3Int(x + input.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[j].x, y + input.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[j].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[j].tiles[index]);
                             }
                         }
                     }
@@ -59,44 +110,63 @@ public class MapGenerator : MonoBehaviour
                     }
                 }
             }
+            if ((x == y) || (x < 0 && x == -y) || (x > 0 && x == 1 - y))
+            {
+                int temp = dx;
+                dx = -dy;
+                dy = temp;
+            }
+            x += dx;
+            y += dy;
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        Vector3Int currentCell = map.WorldToCell(cam.transform.position);
-
-        for (int y = radiusY; y >= -radiusY; y--)
+        */
+        for (int y = diameter.y; y >= -diameter.y; y--)
         {
-            for (int x = -radiusX; x <= radiusX; x++)
+            for (int x = -diameter.x; x <= diameter.x; x++)
             {
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
-                if (map.GetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0)) == null)
+                if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
                 {
                     try
                     {
-                        TileBase changeTile = generateTile(x + currentCell.x, y + currentCell.y);
-                        map.SetTile(new Vector3Int(x + currentCell.x, y + currentCell.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
+                        TileBase changeTile = generateTile(x + input.x, y + input.y);
+                        map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
                         int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
                         if (reqTilesNum > 0)
                         {
                             for (int i = 0; i < reqTilesNum; i++)
                             {
                                 int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles[changeTile].reqTiles[i].tiles.Count())));
-                                map.SetTile(new Vector3Int(x + currentCell.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + currentCell.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i].tiles[index]);
+                                map.SetTile(new Vector3Int(x + input.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + input.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i].tiles[index]);
                             }
+                        }
+
+                        //remove fog
+                        if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y, 0)) != null)
+                        {
+                            fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y, 0), null);
+                        }
+                        if (fog.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) != null)
+                        {
+                            fog.SetTile(new Vector3Int(x + input.x, y + input.y, 0), null);
+                        }
+                        if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0)) != null)
+                        {
+                            fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0), null);
+                        }
+                        if (fog.GetTile(new Vector3Int(x + input.x, y + input.y - 1, 0)) != null)
+                        {
+                            fog.SetTile(new Vector3Int(x + input.x, y + input.y - 1, 0), null);
                         }
                     }
                     catch
                     {
                         Debug.Log("Impossible combination at " + new Vector2Int(x, y));
                     }
-            }
+                }
             }
         }
-
-        //map.SetTile(currentCell, changeTile);
     }
 
     //Used to round out the values inputted (prob a built-in way to do this but it makes me feel smart)
