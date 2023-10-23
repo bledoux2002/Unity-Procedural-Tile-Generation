@@ -24,10 +24,7 @@ public class MapManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(this);
 
-        if (File.Exists(Application.dataPath + "/levelData.json"))
-        {
-            LoadLevel();
-        }
+        if (File.Exists(Application.dataPath + "/levelData.json")) LoadLevel();
 
         dataFromTiles = new Dictionary<TileBase, TileData>();
 
@@ -85,6 +82,16 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < data.pos.Count; i++)
         {
             map.SetTile(data.pos[i], data.tiles[i]);
+        }
+    }
+
+    public void ClearLevel()
+    {
+        map.ClearAllTiles();
+        if (File.Exists(Application.dataPath + "/levelData.json"))
+        {
+            map.ClearAllTiles();
+            File.Delete(Application.dataPath + "/levelData.json");
         }
     }
 }
