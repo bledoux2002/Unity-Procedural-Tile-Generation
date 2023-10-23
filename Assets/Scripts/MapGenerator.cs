@@ -12,7 +12,9 @@ public class MapGenerator : MonoBehaviour
     public Vector2Int diameter; //range of tiles to generate
     private GameObject mapManagerObj;
     private MapManager mapManager;
-    [HideInInspector] public Tilemap map;
+    public Tilemap map;
+    public Tilemap fog;
+    public TileBase fogTile;
     private List<TileData> tileDatas;
     private Dictionary<TileBase, TileData> dataFromTiles;
     private Vector2Int origin;
@@ -30,6 +32,7 @@ public class MapGenerator : MonoBehaviour
     {
         origin.x = RoundValue(cam.transform.position.x);
         origin.y = RoundValue(cam.transform.position.y);
+        HideMap(origin);
         SpiralGen(origin);
     }
 
@@ -38,7 +41,37 @@ public class MapGenerator : MonoBehaviour
     {
         Vector3Int currentCell3D = map.WorldToCell(cam.transform.position);
         Vector2Int currentCell = new Vector2Int(currentCell3D.x, currentCell3D.y);
+        HideMap(currentCell);
         SpiralGen(currentCell);
+    }
+    
+    void HideMap(Vector2Int input)
+    {
+        for (int y = diameter.y + 1; y >= -diameter.y - 1; y--)
+        {
+            for (int x = -diameter.x - 1; x <= diameter.x + 1; x++)
+            {
+                if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
+                {
+                    if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y, 0)) == null)
+                    {
+                        fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y, 0), fogTile);
+                    }
+                    if (fog.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
+                    {
+                        fog.SetTile(new Vector3Int(x + input.x, y + input.y, 0), fogTile);
+                    }
+                    if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0)) == null)
+                    {
+                        fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0), fogTile);
+                    }
+                    if (fog.GetTile(new Vector3Int(x + input.x, y + input.y - 1, 0)) == null)
+                    {
+                        fog.SetTile(new Vector3Int(x + input.x, y + input.y - 1, 0), fogTile);
+                    }
+                }
+            }
+        }
     }
 
     void SpiralGen(Vector2Int input)
@@ -107,6 +140,24 @@ public class MapGenerator : MonoBehaviour
                                 int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles[changeTile].reqTiles[i].tiles.Count())));
                                 map.SetTile(new Vector3Int(x + input.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + input.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i].tiles[index]);
                             }
+                        }
+
+                        //remove fog
+                        if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y, 0)) != null)
+                        {
+                            fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y, 0), null);
+                        }
+                        if (fog.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) != null)
+                        {
+                            fog.SetTile(new Vector3Int(x + input.x, y + input.y, 0), null);
+                        }
+                        if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0)) != null)
+                        {
+                            fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0), null);
+                        }
+                        if (fog.GetTile(new Vector3Int(x + input.x, y + input.y - 1, 0)) != null)
+                        {
+                            fog.SetTile(new Vector3Int(x + input.x, y + input.y - 1, 0), null);
                         }
                     }
                     catch
