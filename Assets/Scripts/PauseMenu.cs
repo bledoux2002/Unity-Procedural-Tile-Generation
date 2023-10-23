@@ -34,7 +34,7 @@ public class PauseMenu : MonoBehaviour
             }
         }
 
-        if (!fogOn)
+        if (fogOn)
         {
             fog.ClearAllTiles();
         }
