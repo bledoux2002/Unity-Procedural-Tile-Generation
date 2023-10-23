@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
     public static bool GamePaused = false;
 
     public GameObject PauseMenuUI;
+
+    public string menuScene;
 
     public Tilemap fog;
     //private TilemapRenderer fog;
@@ -65,6 +68,12 @@ public class PauseMenu : MonoBehaviour
 //            fog.SetColor(255, 255, 255, 255);
             fogOn = true;
         }
+    }
+
+    public void LoadMenu()
+    {
+        Debug.Log("Loading menu...");
+        SceneManager.LoadScene(menuScene);
     }
 
     public void QuitGame()

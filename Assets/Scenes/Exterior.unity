@@ -576,6 +576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMenuUI: {fileID: 334217188}
+  menuScene: MainMenu
   fog: {fileID: 918986799}
 --- !u!1 &519420028
 GameObject:
