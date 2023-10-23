@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
   m_Name: pathNW
   m_EditorClassIdentifier: 
-  spawnChance: 3
+  spawnChance: 5
   tiles:
   - {fileID: 11400000, guid: bd4a418027ef0424eb525cdca9cca40b, type: 2}
   north:

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
   m_Name: grass
   m_EditorClassIdentifier: 
-  spawnChance: 3
+  spawnChance: 2
   tiles:
   - {fileID: 11400000, guid: e4112d54eb8fd5e4a88853b689ee3df1, type: 2}
   - {fileID: 11400000, guid: 403504a8e51baa24d8bd1b0ffeb4e1a4, type: 2}

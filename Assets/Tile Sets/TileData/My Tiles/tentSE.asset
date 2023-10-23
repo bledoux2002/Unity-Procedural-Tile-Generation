@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
   m_Name: tentSE
   m_EditorClassIdentifier: 
-  spawnChance: 3
+  spawnChance: 5
   tiles:
   - {fileID: 11400000, guid: 44bd8f7bbc24da9439234b17ea5c1942, type: 2}
   north: []
@@ -23,7 +23,10 @@ MonoBehaviour:
   northeast: []
   southeast: []
   southwest: []
-  reqTiles: []
+  reqTiles:
+  - {fileID: 11400000, guid: c8b7bbae9bda09d4997edac6e2857bda, type: 2}
+  - {fileID: 11400000, guid: 83eac163755edab48a0216e0d1db4d55, type: 2}
+  - {fileID: 11400000, guid: 8e98ea557c972e54a817b7255ff89a15, type: 2}
   reqTilesCoords:
   - {x: -1, y: 1, z: 0}
   - {x: 0, y: 1, z: 0}
