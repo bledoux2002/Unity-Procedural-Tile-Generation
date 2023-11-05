@@ -47,9 +47,9 @@ public class MapGenerator : MonoBehaviour
     
     void HideMap(Vector2Int input)
     {
-        for (int y = diameter.y + 1; y >= -diameter.y - 1; y--)
+        for (int y = diameter.y + 2; y >= -diameter.y - 2; y--)
         {
-            for (int x = -diameter.x - 1; x <= diameter.x + 1; x++)
+            for (int x = -diameter.x - 2; x <= diameter.x + 2; x++)
             {
                 if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
                 {
