@@ -139,12 +139,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5e04c2898d50186458705961410471a8, type: 2}
   - {fileID: 11400000}
   - {fileID: 11400000, guid: b01f85f6f9297724297b60feb808eeae, type: 2}
-  - {fileID: 11400000, guid: 10ee02d7d39c77b4f9c49a9fd9ec4490, type: 2}
-  - {fileID: 11400000, guid: 12e2df1e1920ae4459df25cc028bdec4, type: 2}
-  - {fileID: 11400000, guid: ae340b52ebf67e847806ad24f5ac3799, type: 2}
-  - {fileID: 11400000, guid: d2092164a01edd646b3329251c4a83e1, type: 2}
-  - {fileID: 11400000, guid: a91cfa7f365cd344f98f56fe710e1e12, type: 2}
-  - {fileID: 11400000, guid: 0919f625131a934488ebaf76927e4ed1, type: 2}
   - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
   southwest:
   - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}

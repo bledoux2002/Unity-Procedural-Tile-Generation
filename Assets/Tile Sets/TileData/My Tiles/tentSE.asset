@@ -58,6 +58,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
   - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
   - {fileID: 11400000, guid: 83eac163755edab48a0216e0d1db4d55, type: 2}
+  - {fileID: 11400000, guid: c8b7bbae9bda09d4997edac6e2857bda, type: 2}
+  - {fileID: 11400000, guid: a91cfa7f365cd344f98f56fe710e1e12, type: 2}
   west:
   - {fileID: 11400000, guid: 8e98ea557c972e54a817b7255ff89a15, type: 2}
   northwest:
@@ -100,11 +102,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ac4b23a9a850aad4fb854b11f49d621e, type: 2}
   - {fileID: 11400000, guid: 407fbc2b43d680949927713256411a1b, type: 2}
   - {fileID: 11400000, guid: 0919f625131a934488ebaf76927e4ed1, type: 2}
-  - {fileID: 11400000, guid: 82ab092a5349c53468d5d6ebbf320091, type: 2}
-  - {fileID: 11400000, guid: b8a180fc9db06e842b9b5c0724eb61b7, type: 2}
-  - {fileID: 11400000, guid: 508bc725d1d6c5243937e16baae75e1c, type: 2}
-  - {fileID: 11400000, guid: a3e9eae066568854fa1afcd77b3be18b, type: 2}
-  - {fileID: 11400000, guid: 5e04c2898d50186458705961410471a8, type: 2}
+  - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
   southwest:
   - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}
   - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}

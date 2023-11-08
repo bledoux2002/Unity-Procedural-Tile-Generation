@@ -65,6 +65,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
   - {fileID: 11400000, guid: a319a6fdfeecf68459028084a611bd5e, type: 2}
   - {fileID: 11400000, guid: 5d75efa7e0be462478669ac0c62f8a58, type: 2}
+  - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
   southwest:
   - {fileID: 11400000, guid: 2d674df98f9a5a84f9265b00960e1e1d, type: 2}
   - {fileID: 11400000}
