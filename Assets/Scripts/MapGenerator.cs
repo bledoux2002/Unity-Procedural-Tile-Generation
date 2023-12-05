@@ -5,11 +5,13 @@ using UnityEngine.Tilemaps;
 using System;
 using System.Linq;
 using Random = UnityEngine.Random;
+using Debug = UnityEngine.Debug;
+using System.Diagnostics;
 
 public class MapGenerator : MonoBehaviour
 {
     private GameObject cam;
-    public Vector2Int diameter; //range of tiles to generate
+    public Vector2Int radius; //range of tiles to generate
     private GameObject mapManagerObj;
     private MapManager mapManager;
     public Tilemap map;
@@ -47,9 +49,9 @@ public class MapGenerator : MonoBehaviour
     
     void HideMap(Vector2Int input)
     {
-        for (int y = diameter.y + 2; y >= -diameter.y - 2; y--)
+        for (int y = radius.y + 2; y >= -radius.y - 2; y--)
         {
-            for (int x = -diameter.x - 2; x <= diameter.x + 2; x++)
+            for (int x = -radius.x - 2; x <= radius.x + 2; x++)
             {
                 if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
                 {
@@ -76,23 +78,76 @@ public class MapGenerator : MonoBehaviour
 
     void SpiralGen(Vector2Int input)
     {
-        /*
+        
+        //https://stackoverflow.com/questions/3706219/algorithm-for-iterating-over-an-outward-spiral-on-a-discrete-2d-grid-from-the-or
+
+        //current position
         int x = 0;
         int y = 0;
-        int dx = 0;
-        int dy = -1;
 
-        int range = Convert.ToInt32(Math.Pow(Math.Max(diameter.x, diameter.y), 2));
-        
-        for (int i = 0; i < range; i++)
+        //direction of movement vector
+        int dx = 1;
+        int dy = 0;
+
+        //current "segment" length and number of segments iterated thru
+        int segment_length = 1;
+        int segment_passed = 0;
+
+        //total number of tiles to generate based on radius
+        int area = (2 * radius.x + 1) * (2 * radius.y + 1);
+        Debug.Log(area);
+
+        //whether valid generation has been found
+        bool genSuccess = false;
+
+        for (int k = 0; k < area; k++)
         {
-            if ((-diameter.x/2 < x && x <= diameter.x/2) && (-diameter.y/2 < y && y <= diameter.y / 2))
+            if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
             {
-                if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
+                //create temp grid for simulation around empty tile
+                TileBase[,] grid = new TileBase[7, 7];
+                for (int gx = 0; gx < 7; gx++)
                 {
-                    try
+                    for (int gy = 6; gy > -1; gy--)
                     {
-                        TileBase changeTile = generateTile(x + input.x, y + input.y);
+                        grid[gx, gy] = map.GetTile(new Vector3Int(x + input.x + gx - 3, y + input.y + gy - 3, 0));
+                    }
+                }
+
+                //try until succeeded
+                while (!genSuccess)
+                {
+                    genSuccess = true;
+
+                    //for each tile in 5x5 grid to be simulated
+                    for (int gx = 1; gx < 6; gx++)
+                    {
+                        for (int gy = 5; gy > 0; gy--)
+                        {
+                            //create mini grid of 3x3 section to input into selectTile()
+                            TileBase[,] tempGrid = new TileBase[3, 3];
+                            for (int tx = 0; tx < 3; tx++)
+                            {
+                                for (int ty = 2; ty > -1; ty--)
+                                {
+                                    tempGrid[tx, ty] = grid[tx + gx - 1, ty + gy + 1];
+                                }
+                            }
+                            tempTile = selectTile(x + input.x + gx, y + input.y + gy, tempGrid);
+                            if (tempTile != null)
+                            {
+                                grid[gx, gy] = tempTile;
+                            } else {
+                                genSuccess = false;
+                            }
+                            
+                        }
+                    }
+                }
+
+                /*try
+                    {
+                        TileBase changeTile = selectTile(x + input.x, y + input.y);
                         map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
                         int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
                         if (reqTilesNum > 0)
@@ -107,30 +162,43 @@ public class MapGenerator : MonoBehaviour
                     catch
                     {
                         Debug.Log("Impossible combination at " + new Vector2Int(x, y));
+                        genSuccess = false;
+                        //break; //freezes game
+
+                    }*/
+
+                //Continue thru spiral
+                x += dx;
+                y += dy;
+                segment_passed++;
+                //Debug.Log(x + ", " + y);
+                if (segment_passed == segment_length)
+                {
+                    segment_passed = 0;
+                    int buffer = dx;
+                    dx = -dy;
+                    dy = buffer;
+
+                    if (dy == 0)
+                    {
+                        segment_length++;
                     }
                 }
             }
-            if ((x == y) || (x < 0 && x == -y) || (x > 0 && x == 1 - y))
-            {
-                int temp = dx;
-                dx = -dy;
-                dy = temp;
-            }
-            x += dx;
-            y += dy;
         }
+        
 
-        */
-        for (int y = diameter.y; y >= -diameter.y; y--)
+        /*
+        for (int y = radius.y; y >= -radius.y; y--)
         {
-            for (int x = -diameter.x; x <= diameter.x; x++)
+            for (int x = -radius.x; x <= radius.x; x++)
             {
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
                 if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
                 {
                     try
                     {
-                        TileBase changeTile = generateTile(x + input.x, y + input.y);
+                        TileBase changeTile = selectTile(x + input.x, y + input.y);
                         map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
                         int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
                         if (reqTilesNum > 0)
@@ -166,7 +234,7 @@ public class MapGenerator : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
     }
 
     //Used to round out the values inputted (prob a built-in way to do this but it makes me feel smart)
@@ -178,9 +246,7 @@ public class MapGenerator : MonoBehaviour
         if ((offset >= 0.5) || ((offset >= -0.5) && (offset < 0)))
         {
             valDouble = Math.Ceiling(val);
-        }
-        else if ((offset < 0.5) && ((offset < 0.5) && (offset > 0)))
-        {
+        } else if ((offset < 0.5) && ((offset < 0.5) && (offset > 0))) {
             valDouble = Math.Floor(val);
         }
 
@@ -190,33 +256,32 @@ public class MapGenerator : MonoBehaviour
     }
 
     //returns tile to be generated, takes (x, y) coords to look around at nearby tiles and their properties
-    TileBase generateTile(int x, int y)
+    TileBase selectTile(int x, int y, TileBase[,] grid)
     {
         //List of lists of TileBases, will be used to find intersect between all sets of compatible tiles for edges of adjacent tiles
         List<List<TileBase>> tileLists = new List<List<TileBase>>();
 
         //if there's a tile on a given side, add the list of edge-compatible tiles to tileLists
         //catch, empty list, don't add to tileLists
-        try
+        if (map.GetTile(new Vector3Int(x, y + 1, 0)) != null)
         {
             TileData[] n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
-            //tileLists[0] = new List<TileBase>();
-            List<TileBase> tempList = new List<TileBase>();
-            for (int i = 0; i < n.Length; i++)
-            {
-                for (int j = 0; j < n[i].tiles.Length; j++)
-                {
-                    tempList.Add(n[i].tiles[j]);
-                }
-            }
-            //Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
-            tileLists.Add(tempList);
-        }
-        catch
-        {
+        } else if (grid[1, 2] != null) {
+            TileData[] n = mapManager.dataFromTiles[grid[1, 2]].south; //find compatible tiles for south edge of north tile
+        } else {
             TileData[] n = new TileData[0];
             //Debug.Log("Empty tile north of " + new Vector2Int(x, y));
         }
+        List<TileBase> tempList = new List<TileBase>();
+        for (int i = 0; i < n.Length; i++)
+        {
+            for (int j = 0; j < n[i].tiles.Length; j++)
+            {
+                tempList.Add(n[i].tiles[j]);
+            }
+        }
+        //Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
+        tileLists.Add(tempList);
         
         try
         {
@@ -420,9 +485,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     dif = tempDif;
                     index = i;
-                }
-                else if (tempDif == dif) //if equal, randomly select between the two (if there are multiple tiles with the same chances)
-                {
+                } else if (tempDif == dif) {//if equal, randomly select between the two (if there are multiple tiles with the same chances)
                     if (Random.Range(0f, 1f) >= 0.5f)
                     {
                         index = i; //no need to reassign dif since its the same as tempDif
@@ -454,6 +517,7 @@ public class MapGenerator : MonoBehaviour
 
     //looks at adjacent tiles and regenerates them if necessary
         //might be difficult to implement since it wont have context of which replacement will result in the least subsequent replacements
+    /*
     void regenerateTiles(int x, int y)
     {
         Dictionary<string, int[]> adjacentTiles = new Dictionary<string, int[]>();
@@ -481,8 +545,8 @@ public class MapGenerator : MonoBehaviour
         int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)adjacentTiles.Count)));
         KeyValuePair<string, int[]> pair = adjacentTiles.ElementAt(index);
         
-        generateTile(pair.Key[0], pair.Key[1]);
-    }
+        selectTile(pair.Key[0], pair.Key[1]);
+    }*/
 
     public static double RandomGaussian() //figure out how the dist actuall works, make it so 0 is never spawn, and up to some number is more likely
     {
