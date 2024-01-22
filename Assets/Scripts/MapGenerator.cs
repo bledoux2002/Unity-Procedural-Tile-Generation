@@ -143,12 +143,14 @@ public class MapGenerator : MonoBehaviour
                                         tempGrid[tx, ty] = grid[tx + gx - 1, ty + gy - 1];
                                     }
                                 }
-                                TileBase tempTile = selectTile(x + input.x + gx, y + input.y + gy, tempGrid);
+                                //EVERYTHING UP TO HERE SHOULD WORK
+                                TileBase tempTile = selectTile(tempGrid);
                                 if (tempTile != null)
                                 {
                                     grid[gx, gy] = tempTile;
                                 } else {
-                                    //genSuccess = false;
+                            //genSuccess = false;
+                            Debug.Log("No tile found in simulation of (" + gx + ", " + gy);
                                     goto BeforeLoop;
                                 }
 //                            }
@@ -277,6 +279,7 @@ public class MapGenerator : MonoBehaviour
         return valNew;
     }
 
+    //REWORK TO USE GRID INPUT INSTEAD OF MAP
     //returns tile to be generated, takes (x, y) coords to look around at nearby tiles and their properties
     TileBase selectTile(int x, int y, TileBase[,] grid)
     {
