@@ -10,70 +10,71 @@ using System.Diagnostics;
 
 public class MapGenerator : MonoBehaviour
 {
-    private GameObject cam;
-    public Vector2Int radius; //range of tiles to generate
-    private GameObject mapManagerObj; //mapmng object
-    private MapManager mapManager; //mapmng script component
+    private GameObject _cam;
+    public Vector2Int _radius; //radius of tiles to generate
+    private GameObject _mapManagerObj; //mapmng object
+    private MapManager _mapManager; //mapmng script component
 
-    public Tilemap map;
-    public Tilemap fog; //tilemap for fog of war
-    public TileBase fogTile; //tile for fog
-    private List<TileData> tileDatas; //all tiles for generating (if its not in here, it wont be generated, even if its in comp lists)
-    private Dictionary<TileBase, TileData> dataFromTiles; //linking tiles to their tiledatas
-    private Vector2Int origin; //wherever the camera starts off in the scene for initial generation
+    public Tilemap _map;
+    public Tilemap _fog; //tilemap for fog of war
+    public TileBase _fogTile; //tile for fog
+    private List<TileData> _tileDatas; //all tiles for generating (if its not in here, it wont be generated, even if its in comp lists)
+    private Dictionary<TileBase, TileData> _dataFromTiles; //linking tiles to their tiledatas
+    private Vector2Int _origin; //wherever the camera starts off in the scene for initial generation
 
     // Awake is called before Start, best for assigning components
     void Awake()
     {
-        cam = GameObject.Find("Main Camera");
-        mapManagerObj = GameObject.Find("MapManager");
-        mapManager = mapManagerObj.GetComponent<MapManager>();
+        _cam = GameObject.Find("Main Camera");
+        _mapManagerObj = GameObject.Find("MapManager");
+        _mapManager = _mapManagerObj.GetComponent<MapManager>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        origin.x = RoundValue(cam.transform.position.x);
-        origin.y = RoundValue(cam.transform.position.y);
-        //Debug.Log(map.GetTile(new Vector3Int(0, 0, 0)));
-//        HideMap(origin); //apply fog of war to start area
-        SpiralGen(origin); //generate tiles within set range
+        _origin.x = RoundValue(_cam.transform.position.x);
+        _origin.y = RoundValue(_cam.transform.position.y);
+        //Debug.Log(_map.GetTile(new Vector3Int(0, 0, 0)));
+//        HideMap(_origin); //apply fog of war to start area
+        SpiralGen(_origin); //generate tiles within set range
     }
 
     // Update is called once per frame
     //same as start, only checking to see if more tiles should be generated
 /*    void Update()
     {
-        Vector3Int currentCell3D = map.WorldToCell(cam.transform.position);
+        Vector3Int currentCell3D = _map.WorldToCell(_cam.transform.position);
         Vector2Int currentCell = new Vector2Int(currentCell3D.x, currentCell3D.y);
         HideMap(currentCell);
         SpiralGen(currentCell);
     }*/
     
     //cover range in fog of war top left to bottom right
+//could maybe use a smaller function to simplify code? lots of repetition in HideMap()
     void HideMap(Vector2Int input)
     {
-        for (int y = radius.y + 2; y >= -radius.y - 2; y--)
+        for (int y = _radius.y + 2; y >= -_radius.y - 2; y--)
         {
-            for (int x = -radius.x - 2; x <= radius.x + 2; x++)
+            for (int x = -_radius.x - 2; x <= _radius.x + 2; x++)
             {
-                if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
+                if (_map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
                 {
-                    if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y, 0)) == null)
+                    if (_fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y, 0)) == null)
                     {
-                        fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y, 0), fogTile);
+                        _fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y, 0), _fogTile);
                     }
-                    if (fog.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
+                    if (_fog.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
                     {
-                        fog.SetTile(new Vector3Int(x + input.x, y + input.y, 0), fogTile);
+                        _fog.SetTile(new Vector3Int(x + input.x, y + input.y, 0), _fogTile);
                     }
-                    if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0)) == null)
+                    if (_fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0)) == null)
                     {
-                        fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0), fogTile);
+                        _fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0), _fogTile);
                     }
-                    if (fog.GetTile(new Vector3Int(x + input.x, y + input.y - 1, 0)) == null)
+                    if (_fog.GetTile(new Vector3Int(x + input.x, y + input.y - 1, 0)) == null)
                     {
-                        fog.SetTile(new Vector3Int(x + input.x, y + input.y - 1, 0), fogTile);
+                        _fog.SetTile(new Vector3Int(x + input.x, y + input.y - 1, 0), _fogTile);
                     }
                 }
             }
@@ -99,7 +100,7 @@ public class MapGenerator : MonoBehaviour
         int segment_passed = 0;
 
         //total number of tiles to generate based on radius
-        int area = (2 * radius.x + 1) * (2 * radius.y + 1);
+        int area = (2 * _radius.x + 1) * (2 * _radius.y + 1);
         //Debug.Log(area);
 
         //whether valid generation has been found
@@ -107,7 +108,7 @@ public class MapGenerator : MonoBehaviour
 
         for (int k = 0; k < area; k++) //iterate thru entire area
         {
-            if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null) //if empty tile
+            if (_map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null) //if empty tile
             {
                 TileBase[,] grid = new TileBase[7, 7]; //create temp grid for simulation around empty tile
                 for (int gx = 0; gx < 7; gx++)
@@ -115,7 +116,7 @@ public class MapGenerator : MonoBehaviour
                     for (int gy = 6; gy > -1; gy--)
                     {
                         //Debug.Log(gx + ", " + gy);
-                        grid[gx, gy] = map.GetTile(new Vector3Int(x + input.x + gx - 3, y + input.y + gy - 3, 0)); //fill temp grid with existing tiles
+                        grid[gx, gy] = _map.GetTile(new Vector3Int(x + input.x + gx - 3, y + input.y + gy - 3, 0)); //fill temp grid with existing tiles
                     }
                 }
 
@@ -143,14 +144,13 @@ public class MapGenerator : MonoBehaviour
                                         tempGrid[tx, ty] = grid[tx + gx - 1, ty + gy - 1];
                                     }
                                 }
-                                //EVERYTHING UP TO HERE SHOULD WORK
+                                //EVERYTHING UP TO HERE SHOULD WORK, GOING TO REWORK selectTile() NEXT
                                 TileBase tempTile = selectTile(tempGrid);
                                 if (tempTile != null)
                                 {
                                     grid[gx, gy] = tempTile;
                                 } else {
-                            //genSuccess = false;
-                            Debug.Log("No tile found in simulation of (" + gx + ", " + gy);
+                                //genSuccess = false;
                                     goto BeforeLoop;
                                 }
 //                            }
@@ -158,28 +158,28 @@ public class MapGenerator : MonoBehaviour
                     }
                 //}
                 TileBase changeTile = grid[3, 3];
-                map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOULD PROBABLY ALLOW FOR Z MANIPULATION
-                /*int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
+                _map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOULD PROBABLY ALLOW FOR Z MANIPULATION
+                /*int reqTilesNum = _mapManager.__dataFromTiles[changeTile].reqTiles.Count();
                 if (reqTilesNum > 0)
                 {
                     for (int j = 0; j < reqTilesNum; j++)
                     {
-                        int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles[changeTile].reqTiles[j].tiles.Count())));
-                        map.SetTile(new Vector3Int(x + input.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[j].x, y + input.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[j].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[j].tiles[index]);
+                        int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)_mapManager.__dataFromTiles[changeTile].reqTiles[j].tiles.Count())));
+                        _map.SetTile(new Vector3Int(x + input.x + _mapManager.__dataFromTiles[changeTile].reqTilesCoords[j].x, y + input.y + _mapManager.__dataFromTiles[changeTile].reqTilesCoords[j].y, 0), _mapManager._dataFromTiles[changeTile].reqTiles[j].tiles[index]);
                     }
                 }*/
 
                 /*try
                     {
                         TileBase changeTile = selectTile(x + input.x, y + input.y);
-                        map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
-                        int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
+                        _map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
+                        int reqTilesNum = _mapManager._dataFromTiles[changeTile].reqTiles.Count();
                         if (reqTilesNum > 0)
                         {
                             for (int j = 0; j < reqTilesNum; j++)
                             {
-                                int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles[changeTile].reqTiles[j].tiles.Count())));
-                                map.SetTile(new Vector3Int(x + input.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[j].x, y + input.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[j].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[j].tiles[index]);
+                                int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)_mapManager._dataFromTiles[changeTile].reqTiles[j].tiles.Count())));
+                                _map.SetTile(new Vector3Int(x + input.x + _mapManager._dataFromTiles[changeTile].reqTilesCoords[j].x, y + input.y + _mapManager._dataFromTiles[changeTile].reqTilesCoords[j].y, 0), _mapManager._dataFromTiles[changeTile].reqTiles[j].tiles[index]);
                             }
                         }
                     }
@@ -213,43 +213,43 @@ public class MapGenerator : MonoBehaviour
         
 
         /*
-        for (int y = radius.y; y >= -radius.y; y--)
+        for (int y = _radius.y; y >= -_radius.y; y--)
         {
-            for (int x = -radius.x; x <= radius.x; x++)
+            for (int x = -_radius.x; x <= _radius.x; x++)
             {
                 //from top left to bottom right, generate any missing tiles (currently at (0, 0), focused on camera
-                if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
+                if (_map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
                 {
                     try
                     {
                         TileBase changeTile = selectTile(x + input.x, y + input.y);
-                        map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
-                        int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
+                        _map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOLD PROBABLY ALLOW FOR Z MANIPULATION
+                        int reqTilesNum = _mapManager._dataFromTiles[changeTile].reqTiles.Count();
                         if (reqTilesNum > 0)
                         {
                             for (int i = 0; i < reqTilesNum; i++)
                             {
-                                int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles[changeTile].reqTiles[i].tiles.Count())));
-                                map.SetTile(new Vector3Int(x + input.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].x, y + input.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[i].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[i].tiles[index]);
+                                int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)_mapManager._dataFromTiles[changeTile].reqTiles[i].tiles.Count())));
+                                _map.SetTile(new Vector3Int(x + input.x + _mapManager._dataFromTiles[changeTile].reqTilesCoords[i].x, y + input.y + _mapManager._dataFromTiles[changeTile].reqTilesCoords[i].y, 0), _mapManager._dataFromTiles[changeTile].reqTiles[i].tiles[index]);
                             }
                         }
 
                         //remove fog
-                        if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y, 0)) != null)
+                        if (_fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y, 0)) != null)
                         {
-                            fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y, 0), null);
+                            _fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y, 0), null);
                         }
-                        if (fog.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) != null)
+                        if (_fog.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) != null)
                         {
-                            fog.SetTile(new Vector3Int(x + input.x, y + input.y, 0), null);
+                            _fog.SetTile(new Vector3Int(x + input.x, y + input.y, 0), null);
                         }
-                        if (fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0)) != null)
+                        if (_fog.GetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0)) != null)
                         {
-                            fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0), null);
+                            _fog.SetTile(new Vector3Int(x + input.x - 1, y + input.y - 1, 0), null);
                         }
-                        if (fog.GetTile(new Vector3Int(x + input.x, y + input.y - 1, 0)) != null)
+                        if (_fog.GetTile(new Vector3Int(x + input.x, y + input.y - 1, 0)) != null)
                         {
-                            fog.SetTile(new Vector3Int(x + input.x, y + input.y - 1, 0), null);
+                            _fog.SetTile(new Vector3Int(x + input.x, y + input.y - 1, 0), null);
                         }
                     }
                     catch
@@ -264,7 +264,7 @@ public class MapGenerator : MonoBehaviour
     //Used to round out the values inputted (prob a built-in way to do this but it makes me feel smart)
     int RoundValue(float val)
     {
-        float offset = val % 1; //how far offcenter cam is from tiles
+        float offset = val % 1; //how far offcenter _cam is from tiles
         double valDouble;
 
         if ((offset >= 0.5) || ((offset >= -0.5) && (offset < 0)))
@@ -281,7 +281,7 @@ public class MapGenerator : MonoBehaviour
 
     //REWORK TO USE GRID INPUT INSTEAD OF MAP
     //returns tile to be generated, takes (x, y) coords to look around at nearby tiles and their properties
-    TileBase selectTile(int x, int y, TileBase[,] grid)
+    TileBase selectTile(TileBase[,] grid)
     {
         //List of lists of TileBases, will be used to find intersect between all sets of compatible tiles for edges of adjacent tiles
         List<List<TileBase>> tileLists = new List<List<TileBase>>();
@@ -289,13 +289,13 @@ public class MapGenerator : MonoBehaviour
         //if there's a tile on a given side, add the list of edge-compatible tiles to tileLists
         //catch, empty list, don't add to tileLists
         TileData[] n;
-        if (map.GetTile(new Vector3Int(x, y + 1, 0)) != null)
+        if (_map.GetTile(new Vector3Int(x, y + 1, 0)) != null)
         {
             Debug.Log("Non-empty tile North of " + new Vector2Int(x, y));
-            n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
+            n = _mapManager._dataFromTiles[_map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
         } else if (grid[1, 2] != null) {
             Debug.Log("Non-empty tile simulated North of " + new Vector2Int(x, y));
-            n = mapManager.dataFromTiles[grid[1, 2]].south; //find compatible tiles for south edge of north tile
+            n = _mapManager._dataFromTiles[grid[1, 2]].south; //find compatible tiles for south edge of north tile
         } else {
             n = new TileData[0];
             Debug.Log("Empty tile north of " + new Vector2Int(x, y));
@@ -317,7 +317,7 @@ public class MapGenerator : MonoBehaviour
         
         try
         {
-            TileData[] e = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y, 0))].west;
+            TileData[] e = _mapManager._dataFromTiles[_map.GetTile(new Vector3Int(x + 1, y, 0))].west;
             //tileLists[1] = new List<TileBase>();
             List<TileBase> tempList = new List<TileBase>();
             for (int i = 0; i < e.Length; i++)
@@ -338,7 +338,7 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileData[] s = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y - 1, 0))].north;
+            TileData[] s = _mapManager._dataFromTiles[_map.GetTile(new Vector3Int(x, y - 1, 0))].north;
             //tileLists[2] = new List<TileBase>();
             List<TileBase> tempList = new List<TileBase>();
             for (int i = 0; i < s.Length; i++)
@@ -359,7 +359,7 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileData[] w = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y, 0))].east;
+            TileData[] w = _mapManager._dataFromTiles[_map.GetTile(new Vector3Int(x - 1, y, 0))].east;
             //Debug.Log("Length of w = " + w.Length + "type = " + w[0].GetType());
             //tileLists[3] = new List<TileBase>(); //ERROR HERE
             List<TileBase> tempList = new List<TileBase>();
@@ -385,7 +385,7 @@ public class MapGenerator : MonoBehaviour
         //ADD CORNER CHECKS, THIS IS GONNA SUCK
         try
         {
-            TileData[] nw = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y + 1, 0))].southeast;
+            TileData[] nw = _mapManager._dataFromTiles[_map.GetTile(new Vector3Int(x - 1, y + 1, 0))].southeast;
             List<TileBase> tempList = new List<TileBase>();
             for (int i = 0; i < nw.Length; i++)
             {
@@ -405,7 +405,7 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileData[] ne = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y + 1, 0))].southwest;
+            TileData[] ne = _mapManager._dataFromTiles[_map.GetTile(new Vector3Int(x + 1, y + 1, 0))].southwest;
             List<TileBase> tempList = new List<TileBase>();
             for (int i = 0; i < ne.Length; i++)
             {
@@ -425,7 +425,7 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileData[] se = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x + 1, y - 1, 0))].northwest;
+            TileData[] se = _mapManager._dataFromTiles[_map.GetTile(new Vector3Int(x + 1, y - 1, 0))].northwest;
             List<TileBase> tempList = new List<TileBase>();
             for (int i = 0; i < se.Length; i++)
             {
@@ -445,7 +445,7 @@ public class MapGenerator : MonoBehaviour
 
         try
         {
-            TileData[] sw = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x - 1, y - 1, 0))].northeast;
+            TileData[] sw = _mapManager._dataFromTiles[_map.GetTile(new Vector3Int(x - 1, y - 1, 0))].northeast;
             List<TileBase> tempList = new List<TileBase>();
             for (int i = 0; i < sw.Length; i++)
             {
@@ -500,7 +500,7 @@ public class MapGenerator : MonoBehaviour
             List<double> chances = new List<double>();
             for (int i = 0; i < compTiles.Count(); i++)
             {
-                chances.Add((double)mapManager.dataFromTiles[compTiles.ElementAt(i)].spawnChance);
+                chances.Add((double)_mapManager._dataFromTiles[compTiles.ElementAt(i)].spawnChance);
             }
 
             //random gaussian number, will find the closest tile "chance" to the selection and save its index in the list
@@ -541,10 +541,10 @@ public class MapGenerator : MonoBehaviour
         
             //if there are no adjacent tiles, select a random tile to begin with and return it
             //in my current implementation, this is only ever called once: generation and movement never skips a line so there will always be at least one adjacent tile after the beginning
-            int place = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles.Count)));
+            int place = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)_mapManager._dataFromTiles.Count)));
             
             
-            KeyValuePair<TileBase, TileData> pair = mapManager.dataFromTiles.ElementAt(place);
+            KeyValuePair<TileBase, TileData> pair = _mapManager._dataFromTiles.ElementAt(place);
             return pair.Key;
         }
     }
@@ -556,24 +556,24 @@ public class MapGenerator : MonoBehaviour
     void regenerateTiles(int x, int y)
     {
         Dictionary<string, int[]> adjacentTiles = new Dictionary<string, int[]>();
-        if (map.GetTile(new Vector3Int(x, y + 1, 0)) != null)
+        if (_map.GetTile(new Vector3Int(x, y + 1, 0)) != null)
         {
-            //adjacentTiles['north'] = map.getTile(new Vector3Int(x, y + 1, 0))
+            //adjacentTiles['north'] = _map.getTile(new Vector3Int(x, y + 1, 0))
             adjacentTiles["north"] = new int[] { x, y + 1 };
         }
-        if (map.GetTile(new Vector3Int(x + 1, y, 0)) != null)
+        if (_map.GetTile(new Vector3Int(x + 1, y, 0)) != null)
         {
-            //adjacentTiles['east'] = map.getTile(new Vector3Int(x + 1, y, 0))
+            //adjacentTiles['east'] = _map.getTile(new Vector3Int(x + 1, y, 0))
             adjacentTiles["east"] = new int[] { x + 1, y };
         }
-        if (map.GetTile(new Vector3Int(x, y - 1, 0)) != null)
+        if (_map.GetTile(new Vector3Int(x, y - 1, 0)) != null)
         {
-            //adjacentTiles['south'] = map.getTile(new Vector3Int(x, y - 1, 0))
+            //adjacentTiles['south'] = _map.getTile(new Vector3Int(x, y - 1, 0))
             adjacentTiles["south"] = new int[] { x, y - 1 };
         }
-        if (map.GetTile(new Vector3Int(x - 1, y, 0)) != null)
+        if (_map.GetTile(new Vector3Int(x - 1, y, 0)) != null)
         {
-            //adjacentTiles['west'] = map.getTile(new Vector3Int(x - 1, y, 0))
+            //adjacentTiles['west'] = _map.getTile(new Vector3Int(x - 1, y, 0))
             adjacentTiles["west"] = new int[] { x - 1, y };
         }
 

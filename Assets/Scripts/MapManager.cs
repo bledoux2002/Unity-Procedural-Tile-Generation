@@ -10,29 +10,29 @@ using Application = UnityEngine.Application;
 
 public class MapManager : MonoBehaviour
 {
-    public static MapManager instance;
-    public Tilemap map;
+    public static MapManager _instance;
+    public Tilemap _map;
 
     [SerializeField]
-    private List<TileData> tileDatas;
+    private List<TileData> _tileDatas;
 
     [HideInInspector]
-    public Dictionary<TileBase, TileData> dataFromTiles;
+    public Dictionary<TileBase, TileData> _dataFromTiles;
 
     private void Awake()
     {
-        if (instance == null) instance = this;
+        if (_instance == null) _instance = this;
         else Destroy(this);
 
         if (File.Exists(Application.dataPath + "/levelData.json")) LoadLevel();
 
-        dataFromTiles = new Dictionary<TileBase, TileData>();
+        _dataFromTiles = new Dictionary<TileBase, TileData>();
 
-        foreach (var tileData in tileDatas)
+        foreach (var tileData in _tileDatas)
         {
             foreach (var tile in tileData.tiles)
             {
-                dataFromTiles.Add(tile, tileData);
+                _dataFromTiles.Add(tile, tileData);
             }
         }
     }
@@ -45,7 +45,7 @@ public class MapManager : MonoBehaviour
 
     public void SaveLevel()
     {
-        BoundsInt bounds = map.cellBounds;
+        BoundsInt bounds = _map.cellBounds;
         LevelData levelData = new LevelData();
         levelData.charPos = GameObject.FindWithTag("Player").transform.position;
 
@@ -53,7 +53,7 @@ public class MapManager : MonoBehaviour
         {
             for (int y = bounds.min.y; y <= bounds.max.y; y++)
             {
-                TileBase temp = map.GetTile(new Vector3Int(x, y, 0));
+                TileBase temp = _map.GetTile(new Vector3Int(x, y, 0));
                 
                 if (temp != null)
                 {
@@ -75,22 +75,22 @@ public class MapManager : MonoBehaviour
         string json = File.ReadAllText(Application.dataPath + "/levelData.json");
         LevelData data = JsonUtility.FromJson<LevelData>(json);
 
-        map.ClearAllTiles();
+        _map.ClearAllTiles();
 
         GameObject.FindWithTag("Player").transform.position = data.charPos;
 
         for (int i = 0; i < data.pos.Count; i++)
         {
-            map.SetTile(data.pos[i], data.tiles[i]);
+            _map.SetTile(data.pos[i], data.tiles[i]);
         }
     }
 
     public void ClearLevel()
     {
-        map.ClearAllTiles();
+        _map.ClearAllTiles();
         if (File.Exists(Application.dataPath + "/levelData.json"))
         {
-            map.ClearAllTiles();
+            _map.ClearAllTiles();
             File.Delete(Application.dataPath + "/levelData.json");
         }
     }
