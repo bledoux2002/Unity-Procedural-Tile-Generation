@@ -94,7 +94,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a0157162b08ff84478f8eac3cba82032, type: 2}
   - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
   - {fileID: 11400000, guid: cb5b659d39768a7498e61fae42f24d71, type: 2}
-  - {fileID: 11400000}
+  - {fileID: 11400000, guid: c8b7bbae9bda09d4997edac6e2857bda, type: 2}
   southeast:
   - {fileID: 11400000, guid: 5851bf4ddbf9be442ac18fd9b18bcca2, type: 2}
   - {fileID: 11400000, guid: a91cfa7f365cd344f98f56fe710e1e12, type: 2}
@@ -129,5 +129,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5e04c2898d50186458705961410471a8, type: 2}
   - {fileID: 11400000, guid: eb5eacbca70dd624f86c8a6c00681f06, type: 2}
   - {fileID: 11400000, guid: 83eac163755edab48a0216e0d1db4d55, type: 2}
+  - {fileID: 11400000, guid: c8b7bbae9bda09d4997edac6e2857bda, type: 2}
   reqTiles: []
   reqTilesCoords: []

@@ -142,5 +142,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eb5eacbca70dd624f86c8a6c00681f06, type: 2}
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 83eac163755edab48a0216e0d1db4d55, type: 2}
+  - {fileID: 11400000, guid: c8b7bbae9bda09d4997edac6e2857bda, type: 2}
   reqTiles: []
   reqTilesCoords: []

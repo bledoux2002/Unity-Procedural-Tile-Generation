@@ -12,14 +12,15 @@ public class MapGenerator : MonoBehaviour
 {
     private GameObject cam;
     public Vector2Int radius; //range of tiles to generate
-    private GameObject mapManagerObj;
-    private MapManager mapManager;
+    private GameObject mapManagerObj; //mapmng object
+    private MapManager mapManager; //mapmng script component
+
     public Tilemap map;
-    public Tilemap fog;
-    public TileBase fogTile;
-    private List<TileData> tileDatas;
-    private Dictionary<TileBase, TileData> dataFromTiles;
-    private Vector2Int origin;
+    public Tilemap fog; //tilemap for fog of war
+    public TileBase fogTile; //tile for fog
+    private List<TileData> tileDatas; //all tiles for generating (if its not in here, it wont be generated, even if its in comp lists)
+    private Dictionary<TileBase, TileData> dataFromTiles; //linking tiles to their tiledatas
+    private Vector2Int origin; //wherever the camera starts off in the scene for initial generation
 
     // Awake is called before Start, best for assigning components
     void Awake()
@@ -34,19 +35,22 @@ public class MapGenerator : MonoBehaviour
     {
         origin.x = RoundValue(cam.transform.position.x);
         origin.y = RoundValue(cam.transform.position.y);
-        HideMap(origin);
-        SpiralGen(origin);
+        //Debug.Log(map.GetTile(new Vector3Int(0, 0, 0)));
+//        HideMap(origin); //apply fog of war to start area
+        SpiralGen(origin); //generate tiles within set range
     }
 
     // Update is called once per frame
-    void Update()
+    //same as start, only checking to see if more tiles should be generated
+/*    void Update()
     {
         Vector3Int currentCell3D = map.WorldToCell(cam.transform.position);
         Vector2Int currentCell = new Vector2Int(currentCell3D.x, currentCell3D.y);
         HideMap(currentCell);
         SpiralGen(currentCell);
-    }
+    }*/
     
+    //cover range in fog of war top left to bottom right
     void HideMap(Vector2Int input)
     {
         for (int y = radius.y + 2; y >= -radius.y - 2; y--)
@@ -76,6 +80,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    //generate tiles spiral-form
     void SpiralGen(Vector2Int input)
     {
         
@@ -95,55 +100,72 @@ public class MapGenerator : MonoBehaviour
 
         //total number of tiles to generate based on radius
         int area = (2 * radius.x + 1) * (2 * radius.y + 1);
-        Debug.Log(area);
+        //Debug.Log(area);
 
         //whether valid generation has been found
-        bool genSuccess = false;
+//        bool genSuccess = false;
 
-        for (int k = 0; k < area; k++)
+        for (int k = 0; k < area; k++) //iterate thru entire area
         {
-            if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null)
+            if (map.GetTile(new Vector3Int(x + input.x, y + input.y, 0)) == null) //if empty tile
             {
-                //create temp grid for simulation around empty tile
-                TileBase[,] grid = new TileBase[7, 7];
+                TileBase[,] grid = new TileBase[7, 7]; //create temp grid for simulation around empty tile
                 for (int gx = 0; gx < 7; gx++)
                 {
                     for (int gy = 6; gy > -1; gy--)
                     {
-                        grid[gx, gy] = map.GetTile(new Vector3Int(x + input.x + gx - 3, y + input.y + gy - 3, 0));
+                        //Debug.Log(gx + ", " + gy);
+                        grid[gx, gy] = map.GetTile(new Vector3Int(x + input.x + gx - 3, y + input.y + gy - 3, 0)); //fill temp grid with existing tiles
                     }
                 }
 
+                BeforeLoop:
                 //try until succeeded
-                while (!genSuccess)
-                {
-                    genSuccess = true;
+ //               while (!genSuccess)
+ //               {
+ //                   genSuccess = true;
 
-                    //for each tile in 5x5 grid to be simulated
+                    //for each tile in 5x5 grid to be simulated (top left to bottom right)
                     for (int gx = 1; gx < 6; gx++)
                     {
                         for (int gy = 5; gy > 0; gy--)
                         {
-                            //create mini grid of 3x3 section to input into selectTile()
-                            TileBase[,] tempGrid = new TileBase[3, 3];
-                            for (int tx = 0; tx < 3; tx++)
-                            {
-                                for (int ty = 2; ty > -1; ty--)
+//                            if (genSuccess)
+//                            {
+                                //Debug.Log(gx + ", " + gy);
+                                //create mini grid of 3x3 section to input into selectTile()
+                                TileBase[,] tempGrid = new TileBase[3, 3];
+                                for (int tx = 0; tx < 3; tx++)
                                 {
-                                    tempGrid[tx, ty] = grid[tx + gx - 1, ty + gy + 1];
+                                    for (int ty = 2; ty > -1; ty--)
+                                    {
+                                        //Debug.Log(tx + ", " + ty);
+                                        tempGrid[tx, ty] = grid[tx + gx - 1, ty + gy - 1];
+                                    }
                                 }
-                            }
-                            tempTile = selectTile(x + input.x + gx, y + input.y + gy, tempGrid);
-                            if (tempTile != null)
-                            {
-                                grid[gx, gy] = tempTile;
-                            } else {
-                                genSuccess = false;
-                            }
-                            
+                                TileBase tempTile = selectTile(x + input.x + gx, y + input.y + gy, tempGrid);
+                                if (tempTile != null)
+                                {
+                                    grid[gx, gy] = tempTile;
+                                } else {
+                                    //genSuccess = false;
+                                    goto BeforeLoop;
+                                }
+//                            }
                         }
                     }
-                }
+                //}
+                TileBase changeTile = grid[3, 3];
+                map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOULD PROBABLY ALLOW FOR Z MANIPULATION
+                /*int reqTilesNum = mapManager.dataFromTiles[changeTile].reqTiles.Count();
+                if (reqTilesNum > 0)
+                {
+                    for (int j = 0; j < reqTilesNum; j++)
+                    {
+                        int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles[changeTile].reqTiles[j].tiles.Count())));
+                        map.SetTile(new Vector3Int(x + input.x + mapManager.dataFromTiles[changeTile].reqTilesCoords[j].x, y + input.y + mapManager.dataFromTiles[changeTile].reqTilesCoords[j].y, 0), mapManager.dataFromTiles[changeTile].reqTiles[j].tiles[index]);
+                    }
+                }*/
 
                 /*try
                     {
@@ -263,25 +285,32 @@ public class MapGenerator : MonoBehaviour
 
         //if there's a tile on a given side, add the list of edge-compatible tiles to tileLists
         //catch, empty list, don't add to tileLists
+        TileData[] n;
         if (map.GetTile(new Vector3Int(x, y + 1, 0)) != null)
         {
-            TileData[] n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
+            Debug.Log("Non-empty tile North of " + new Vector2Int(x, y));
+            n = mapManager.dataFromTiles[map.GetTile(new Vector3Int(x, y + 1, 0))].south; //find compatible tiles for south edge of north tile
         } else if (grid[1, 2] != null) {
-            TileData[] n = mapManager.dataFromTiles[grid[1, 2]].south; //find compatible tiles for south edge of north tile
+            Debug.Log("Non-empty tile simulated North of " + new Vector2Int(x, y));
+            n = mapManager.dataFromTiles[grid[1, 2]].south; //find compatible tiles for south edge of north tile
         } else {
-            TileData[] n = new TileData[0];
-            //Debug.Log("Empty tile north of " + new Vector2Int(x, y));
+            n = new TileData[0];
+            Debug.Log("Empty tile north of " + new Vector2Int(x, y));
         }
-        List<TileBase> tempList = new List<TileBase>();
-        for (int i = 0; i < n.Length; i++)
+
+        if (n.Length > 0)
         {
-            for (int j = 0; j < n[i].tiles.Length; j++)
+            List<TileBase> tempList = new List<TileBase>();
+            for (int i = 0; i < n.Length; i++)
             {
-                tempList.Add(n[i].tiles[j]);
+                for (int j = 0; j < n[i].tiles.Length; j++)
+                {
+                    tempList.Add(n[i].tiles[j]);
+                }
             }
+            //Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
+            tileLists.Add(tempList);
         }
-        //Debug.Log(n.Length + " compatible tiles north of " + new Vector2Int(x, y));
-        tileLists.Add(tempList);
         
         try
         {
@@ -434,14 +463,14 @@ public class MapGenerator : MonoBehaviour
         //List of compatible tiles with adjacent tiles
         IEnumerable<TileBase> compTiles;
         //Debug.Log("There are " + tileLists.Count().ToString() + " TileBase lists");
-        //Debug.Log(tileLists);
+        //Debug.Log(tileLists[0]);
 
         //if there is at least one adjacent tile, use that tile's edge-compatible tile list
         if (tileLists.Count() > 0)
         {
-            //Debug.Log("There are " + tileLists.Count() + "compatible tiles surrounding " + new Vector2Int(x, y));
+            Debug.Log("There are " + tileLists.Count() + " tiles surrounding " + new Vector2Int(x, y));
             compTiles = tileLists[0];
-            //Debug.Log("There are " + compTiles.Count() + " compTiles, should be equal to above num");
+            Debug.Log("There are " + compTiles.Count() + " compTiles in one cardinal direction");
             //Debug.Log(compTiles.ElementAt(0));
 
             //if there is more than one adjacent tile, continuously find intersect of compTiles and each of the rest of the adjacent tiles' edge-compatible tile lists
@@ -497,27 +526,30 @@ public class MapGenerator : MonoBehaviour
             //{
             //Debug.Log(index);
             //Debug.Log(compTiles.Count());
-                return compTiles.ElementAt(index);
+            Debug.Log(compTiles.Count().ToString() + ", " + index.ToString());
+            return compTiles.ElementAt(index);
             /*}
             catch
             {
                 Debug.Log("Impossible combination at " + new Vector2Int(x, y));
                 //regenerateTiles(x, y);
             }*/
-        }
+        } else {
         
-        //if there are no adjacent tiles, select a random tile to begin with and return it
+            //if there are no adjacent tiles, select a random tile to begin with and return it
             //in my current implementation, this is only ever called once: generation and movement never skips a line so there will always be at least one adjacent tile after the beginning
-        int place = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles.Count)));
-        
-        
-        KeyValuePair<TileBase, TileData> pair = mapManager.dataFromTiles.ElementAt(place);
-        return pair.Key;
+            int place = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)mapManager.dataFromTiles.Count)));
+            
+            
+            KeyValuePair<TileBase, TileData> pair = mapManager.dataFromTiles.ElementAt(place);
+            return pair.Key;
+        }
     }
 
     //looks at adjacent tiles and regenerates them if necessary
         //might be difficult to implement since it wont have context of which replacement will result in the least subsequent replacements
     /*
+    //might be unnecessary once simulation method is completed
     void regenerateTiles(int x, int y)
     {
         Dictionary<string, int[]> adjacentTiles = new Dictionary<string, int[]>();
@@ -548,7 +580,8 @@ public class MapGenerator : MonoBehaviour
         selectTile(pair.Key[0], pair.Key[1]);
     }*/
 
-    public static double RandomGaussian() //figure out how the dist actuall works, make it so 0 is never spawn, and up to some number is more likely
+    //gaussian double selection, used instead of randomized tile selection
+    public static double RandomGaussian() //figure out how the dist actually works, make it so 0 is never spawn, and up to some number is more likely
     {
         double u1 = Random.Range(0f, 1f);
         double u2 = Random.Range(0f, 1f);
