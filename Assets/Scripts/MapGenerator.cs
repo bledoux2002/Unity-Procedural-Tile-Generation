@@ -279,7 +279,7 @@ public class MapGenerator : MonoBehaviour
         return valNew;
     }
 
-    //REWORK TO USE GRID INPUT INSTEAD OF MAP
+    /*REWORK TO USE GRID INPUT INSTEAD OF MAP
     //returns tile to be generated, takes (x, y) coords to look around at nearby tiles and their properties
     TileBase selectTile(TileBase[,] grid)
     {
@@ -317,21 +317,22 @@ public class MapGenerator : MonoBehaviour
         
         try
         {
-            TileData[] e = _mapManager._dataFromTiles[_map.GetTile(new Vector3Int(x + 1, y, 0))].west;
+            TileData[] e = _mapManager._dataFromTiles[_map.GetTile(new Vector3Int(x + 1, y, 0))].west; //get list of compatible tiles (TileData) west of tile east of (x, y)
             //tileLists[1] = new List<TileBase>();
-            List<TileBase> tempList = new List<TileBase>();
-            for (int i = 0; i < e.Length; i++)
+            List<TileBase> tempList = new List<TileBase>(); //temporary list of tiles (TileBase)
+            for (int i = 0; i < e.Length; i++) //for every possible tile (TileData) in (x, y) from (x + 1, y)
             {
-                for (int j = 0; j < e[i].tiles.Length; j++)
+                for (int j = 0; j < e[i].tiles.Length; j++) //for every tile (TileBase)
                 {
-                    tempList.Add(e[i].tiles[j]);
+                    tempList.Add(e[i].tiles[j]); //add TileBase to temporary list
                 }
             }
             //Debug.Log(e.Length + " compatible tiles east of " + new Vector2Int(x, y));
-            tileLists.Add(tempList);
+            tileLists.Add(tempList); //add tempList to tileLists
         }
         catch
         {
+            //if ANY error occurs (assumed to be empty tile, shouldnt), ignore this tile's comptiles
             TileData[] e = new TileData[0];
             //Debug.Log("Empty tile east of " + new Vector2Int(x, y));
         }
@@ -536,6 +537,101 @@ public class MapGenerator : MonoBehaviour
             {
                 Debug.Log("Impossible combination at " + new Vector2Int(x, y));
                 //regenerateTiles(x, y);
+            }*
+        } else {
+        
+            //if there are no adjacent tiles, select a random tile to begin with and return it
+            //in my current implementation, this is only ever called once: generation and movement never skips a line so there will always be at least one adjacent tile after the beginning
+            int place = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)_mapManager._dataFromTiles.Count)));
+            
+            
+            KeyValuePair<TileBase, TileData> pair = _mapManager._dataFromTiles.ElementAt(place);
+            return pair.Key;
+        }
+    }*/
+
+    TileBase selectTile(TileBase[,] grid)
+    {
+        //List of lists of TileBases, will be used to find intersect between all sets of compatible tiles for edges of adjacent tiles
+        List<List<TileBase>> tileLists = new List<List<TileBase>>();
+
+        //if there's a tile on a given side, add the list of edge-compatible tiles to tileLists
+        //catch, empty list, don't add to tileLists
+
+        //OUTSOURCE CODE TO CHECK COMP FUNCTION, SWITCH CASE FOR INPUT FOR CARDINAL DIRECTIONS
+        string[] cardinals = { "North, East, South, West, Northwest, Northeast, Southeast, Southwest" };
+
+        //List of compatible tiles with adjacent tiles
+        IEnumerable<TileBase> compTiles;
+        //Debug.Log("There are " + tileLists.Count().ToString() + " TileBase lists");
+        //Debug.Log(tileLists[0]);
+
+        //if there is at least one adjacent tile, use that tile's edge-compatible tile list
+        if (tileLists.Count() > 0)
+        {
+            compTiles = tileLists[0];
+
+            //if there is more than one adjacent tile, continuously find intersect of compTiles and each of the rest of the adjacent tiles' edge-compatible tile lists
+            if (tileLists.Count() > 1)
+            {
+                for (int i = 1; i < tileLists.Count(); i++)
+                {
+                    //FINDING INTERSECT BETWEEN EACH INDIVIDUAL TILE?
+                    IEnumerable<TileBase> temp = tileLists.ElementAt(i);
+                    compTiles = compTiles.Intersect(temp);
+                }
+            }
+
+            //Debug.Log(compTiles.Count());
+
+            //select a random tile from compTiles to return
+            //THIS WILL LATER BE REPLACED WITH GAUSSIAN DISTRIBUTION
+            //int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)compTiles.Count())));
+
+            //Gaussian Selection of tile
+
+            //list of the chances elected by the dev
+            List<double> chances = new List<double>();
+            for (int i = 0; i < compTiles.Count(); i++)
+            {
+                chances.Add((double)_mapManager._dataFromTiles[compTiles.ElementAt(i)].spawnChance);
+            }
+
+            //random gaussian number, will find the closest tile "chance" to the selection and save its index in the list
+            double selection = RandomGaussian();
+            double dif = 6d;
+            int index = 0;
+
+            for (int i = 0; i < chances.Count(); i++)
+            {
+                double tempDif = Math.Abs(chances[i] - selection); //find the difference
+
+                //if smaller than previous smallest, overwrite
+                if (tempDif < dif)
+                {
+                    dif = tempDif;
+                    index = i;
+                }
+                else if (tempDif == dif)
+                {//if equal, randomly select between the two (if there are multiple tiles with the same chances)
+                    if (Random.Range(0f, 1f) >= 0.5f)
+                    {
+                        index = i; //no need to reassign dif since its the same as tempDif
+                    }
+                }
+            }
+
+            //try
+            //{
+            //Debug.Log(index);
+            //Debug.Log(compTiles.Count());
+            Debug.Log(compTiles.Count().ToString() + ", " + index.ToString());
+            return compTiles.ElementAt(index);
+            /*}
+            catch
+            {
+                Debug.Log("Impossible combination at " + new Vector2Int(x, y));
+                //regenerateTiles(x, y);
             }*/
         } else {
         
@@ -549,42 +645,58 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    //looks at adjacent tiles and regenerates them if necessary
-        //might be difficult to implement since it wont have context of which replacement will result in the least subsequent replacements
-    /*
-    //might be unnecessary once simulation method is completed
-    void regenerateTiles(int x, int y)
+    List<TileBase> compatibleList(TileBase tile, string direction)
     {
-        Dictionary<string, int[]> adjacentTiles = new Dictionary<string, int[]>();
-        if (_map.GetTile(new Vector3Int(x, y + 1, 0)) != null)
+        //return list of compatible tiles in direction of input from input tile
+        TileData[] compArray;
+        switch (direction)
         {
-            //adjacentTiles['north'] = _map.getTile(new Vector3Int(x, y + 1, 0))
-            adjacentTiles["north"] = new int[] { x, y + 1 };
+            case "North":
+                compArray = _mapManager._dataFromTiles[tile].north;
+                break;
+            case "East":
+                compArray = _mapManager._dataFromTiles[tile].east;
+                break;
+            case "South":
+                compArray = _mapManager._dataFromTiles[tile].south;
+                break;
+            case "West":
+                compArray = _mapManager._dataFromTiles[tile].west;
+                break;
+            case "Northwest":
+                compArray = _mapManager._dataFromTiles[tile].northwest;
+                break;
+            case "Northeast":
+                compArray = _mapManager._dataFromTiles[tile].northeast;
+                break;
+            case "Southeast":
+                compArray = _mapManager._dataFromTiles[tile].southeast;
+                break;
+            case "Southwest":
+                compArray = _mapManager._dataFromTiles[tile].southwest;
+                break;
+            default:
+                Debug.Log("You misspelled the direction in the function call.");
+                compArray = null;
+                break;
         }
-        if (_map.GetTile(new Vector3Int(x + 1, y, 0)) != null)
+        List<TileBase> tempList = new List<TileBase>();
+        if (compArray != null)
         {
-            //adjacentTiles['east'] = _map.getTile(new Vector3Int(x + 1, y, 0))
-            adjacentTiles["east"] = new int[] { x + 1, y };
+            for (int i = 0; i < compArray.Length; i++)
+            {
+                for (int j = 0; j < compArray[i].tiles.Length; j++)
+                {
+                    tempList.Add(compArray[i].tiles[j]);
+                }
+            }
         }
-        if (_map.GetTile(new Vector3Int(x, y - 1, 0)) != null)
-        {
-            //adjacentTiles['south'] = _map.getTile(new Vector3Int(x, y - 1, 0))
-            adjacentTiles["south"] = new int[] { x, y - 1 };
-        }
-        if (_map.GetTile(new Vector3Int(x - 1, y, 0)) != null)
-        {
-            //adjacentTiles['west'] = _map.getTile(new Vector3Int(x - 1, y, 0))
-            adjacentTiles["west"] = new int[] { x - 1, y };
-        }
-
-        int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)adjacentTiles.Count)));
-        KeyValuePair<string, int[]> pair = adjacentTiles.ElementAt(index);
-        
-        selectTile(pair.Key[0], pair.Key[1]);
-    }*/
+        return tempList;
+    }
 
     //gaussian double selection, used instead of randomized tile selection
-    public static double RandomGaussian() //figure out how the dist actually works, make it so 0 is never spawn, and up to some number is more likely
+    //FIGURE OUT HOW THIS WORKS AND ADJUST DOCUMENTATION
+    public static double RandomGaussian() //change so 0 is never spawn, and up to some number is more likely
     {
         double u1 = Random.Range(0f, 1f);
         double u2 = Random.Range(0f, 1f);
