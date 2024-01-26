@@ -42,13 +42,13 @@ public class MapGenerator : MonoBehaviour
 
     // Update is called once per frame
     //same as start, only checking to see if more tiles should be generated
-/*    void Update()
+    void Update()
     {
         Vector3Int currentCell3D = _map.WorldToCell(_cam.transform.position);
         Vector2Int currentCell = new Vector2Int(currentCell3D.x, currentCell3D.y);
-        HideMap(currentCell);
+//        HideMap(currentCell);
         SpiralGen(currentCell);
-    }*/
+    }
     
     //cover range in fog of war top left to bottom right
 //could maybe use a smaller function to simplify code? lots of repetition in HideMap()
@@ -559,7 +559,22 @@ public class MapGenerator : MonoBehaviour
         //catch, empty list, don't add to tileLists
 
         //OUTSOURCE CODE TO CHECK COMP FUNCTION, SWITCH CASE FOR INPUT FOR CARDINAL DIRECTIONS
-        string[] cardinals = { "North, East, South, West, Northwest, Northeast, Southeast, Southwest" };
+        string[] cardinals = { "Southeast", "South", "Southwest", "East", "SKIP", "West", "Northeast", "North", "Northwest" };
+
+        for (int i = 0; i < 9; i++)
+        {
+            int x = i % 3; //modulo (0, 1, 2, 0, 1, 2, 0, 1, 2)
+            int y = (8 - i) / 3; //int div (2, 2, 2, 1, 1, 1, 0, 0, 0)
+            //Debug.Log(i + ": " + x + ", " + y);
+            if ((x == 1) && (y == 1))
+            {
+                continue; //if middle tile, skip
+            }
+            if (grid[x, y] != null)
+            {
+                tileLists.Add(compatibleList(grid[x, y], cardinals[i]));
+            }
+        }
 
         //List of compatible tiles with adjacent tiles
         IEnumerable<TileBase> compTiles;
@@ -582,14 +597,7 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
-            //Debug.Log(compTiles.Count());
-
-            //select a random tile from compTiles to return
-            //THIS WILL LATER BE REPLACED WITH GAUSSIAN DISTRIBUTION
-            //int index = Convert.ToInt32(Math.Floor(Random.Range(0.0f, (float)compTiles.Count())));
-
             //Gaussian Selection of tile
-
             //list of the chances elected by the dev
             List<double> chances = new List<double>();
             for (int i = 0; i < compTiles.Count(); i++)
@@ -625,7 +633,7 @@ public class MapGenerator : MonoBehaviour
             //{
             //Debug.Log(index);
             //Debug.Log(compTiles.Count());
-            Debug.Log(compTiles.Count().ToString() + ", " + index.ToString());
+            //Debug.Log(compTiles.Count().ToString() + ", " + index.ToString());
             return compTiles.ElementAt(index);
             /*}
             catch
