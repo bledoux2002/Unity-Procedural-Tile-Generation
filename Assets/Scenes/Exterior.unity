@@ -559,7 +559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eed7d3b2b581854788f09ca233f1a37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: {x: 0, y: 0}
+  _radius: {x: 5, y: 3}
   _map: {fileID: 1294846427}
   _fog: {fileID: 918986799}
   _fogTile: {fileID: 11400000, guid: ebd943c6e236e024e87dd0d6dd5691e6, type: 2}

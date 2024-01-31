@@ -584,7 +584,7 @@ public class MapGenerator : MonoBehaviour
         //if there is at least one adjacent tile, use that tile's edge-compatible tile list
         if (tileLists.Count() > 0)
         {
-            compTiles = tileLists[0];
+            compTiles = tileLists.ElementAt(0);
 
             //if there is more than one adjacent tile, continuously find intersect of compTiles and each of the rest of the adjacent tiles' edge-compatible tile lists
             if (tileLists.Count() > 1)
@@ -631,8 +631,6 @@ public class MapGenerator : MonoBehaviour
 
             //try
             //{
-            //Debug.Log(index);
-            //Debug.Log(compTiles.Count());
             //Debug.Log(compTiles.Count().ToString() + ", " + index.ToString());
             return compTiles.ElementAt(index);
             /*}
