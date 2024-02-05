@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82486b11e54dbb840b60883583c9f0f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameScene: Exterior
+  gameScene: Ground
 --- !u!1 &503148325
 GameObject:
   m_ObjectHideFlags: 0
