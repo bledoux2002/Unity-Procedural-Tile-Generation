@@ -37,6 +37,7 @@ MonoBehaviour:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
   - {fileID: 11400000, guid: 80c6f2918c5d58742a817e4122f9c576, type: 2}
+  - {fileID: 11400000, guid: d037eabaf0c5a494b90263dbe83bb87d, type: 2}
   south:
   - {fileID: 11400000, guid: 2d674df98f9a5a84f9265b00960e1e1d, type: 2}
   - {fileID: 11400000, guid: fb1cdd982c2cd0b4ba62ece4b4d87bce, type: 2}
@@ -46,6 +47,7 @@ MonoBehaviour:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: fc9ae69af9c25d846a90666924b90e60, type: 2}
   - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
+  - {fileID: 11400000, guid: 28bcc229d619b8946ad1dd79f885d666, type: 2}
   northwest: []
   northeast: []
   southeast:

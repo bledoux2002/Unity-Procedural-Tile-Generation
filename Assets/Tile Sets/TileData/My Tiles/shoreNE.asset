@@ -56,10 +56,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fc9ae69af9c25d846a90666924b90e60, type: 2}
   - {fileID: 11400000, guid: 2035111cfc0a87345820b8a0a66983a9, type: 2}
   - {fileID: 11400000, guid: 661c486940788bc48a3b3c60ebf32ae6, type: 2}
+  - {fileID: 11400000, guid: 28bcc229d619b8946ad1dd79f885d666, type: 2}
   west:
   - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
   - {fileID: 11400000, guid: fc9ae69af9c25d846a90666924b90e60, type: 2}
   - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
+  - {fileID: 11400000, guid: 28bcc229d619b8946ad1dd79f885d666, type: 2}
   northwest: []
   northeast: []
   southeast: []

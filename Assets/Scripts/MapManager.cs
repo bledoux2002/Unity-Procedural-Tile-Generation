@@ -13,9 +13,11 @@ public class MapManager : MonoBehaviour
     public static MapManager _instance;
     public Tilemap _map;
 
+    //tiles can only be generated if they are listed here in Unity
     [SerializeField]
     private List<TileData> _tileDatas;
 
+    //links tiles with associated tiledata objects
     [HideInInspector]
     public Dictionary<TileBase, TileData> _dataFromTiles;
 
@@ -36,12 +38,6 @@ public class MapManager : MonoBehaviour
             }
         }
     }
-    /*
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F)) SaveLevel();
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.G)) LoadLevel();
-    }*/
 
     public void SaveLevel()
     {

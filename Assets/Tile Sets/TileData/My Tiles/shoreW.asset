@@ -16,9 +16,7 @@ MonoBehaviour:
   tiles:
   - {fileID: 11400000, guid: b4517d7be513262449bf46d7bec09832, type: 2}
   north:
-  - {fileID: 11400000}
-  - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
-  - {fileID: 11400000, guid: 33048ab2a6584ae45bd4e71524b9076a, type: 2}
+  - {fileID: 11400000, guid: 28bcc229d619b8946ad1dd79f885d666, type: 2}
   east:
   - {fileID: 11400000, guid: 2d674df98f9a5a84f9265b00960e1e1d, type: 2}
   - {fileID: 11400000, guid: 2035111cfc0a87345820b8a0a66983a9, type: 2}

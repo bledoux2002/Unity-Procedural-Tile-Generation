@@ -14,7 +14,7 @@ public class TileData : ScriptableObject
 
     public TileBase[] tiles;
 
-    // These lists define compatible tiles on each edge (north can only be paired with tiles 1, 4, 17, while east can only be paired with tiles 3, 18, 35)
+    // These lists define compatible tiles on each edge (north can only be paired with tiles x and y, while east can only be paired with tile z)
     public TileData[] north, east, south, west, northwest, northeast, southeast, southwest;
 
     // Required adjacent tiles (multi-tile structures), <tile, relevant coords>
