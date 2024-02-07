@@ -16,6 +16,9 @@ MonoBehaviour:
   tiles:
   - {fileID: 11400000, guid: b4517d7be513262449bf46d7bec09832, type: 2}
   north:
+  - {fileID: 11400000}
+  - {fileID: 11400000, guid: e454ddc8164d6bb4cab60c0e148877bb, type: 2}
+  - {fileID: 11400000, guid: 33048ab2a6584ae45bd4e71524b9076a, type: 2}
   - {fileID: 11400000, guid: 28bcc229d619b8946ad1dd79f885d666, type: 2}
   east:
   - {fileID: 11400000, guid: 2d674df98f9a5a84f9265b00960e1e1d, type: 2}
@@ -26,6 +29,7 @@ MonoBehaviour:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 80c6f2918c5d58742a817e4122f9c576, type: 2}
   - {fileID: 11400000, guid: a0157162b08ff84478f8eac3cba82032, type: 2}
+  - {fileID: 11400000, guid: d037eabaf0c5a494b90263dbe83bb87d, type: 2}
   west:
   - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}
   - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}

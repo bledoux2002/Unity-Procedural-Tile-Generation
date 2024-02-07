@@ -565,14 +565,18 @@ public class MapGenerator : MonoBehaviour
         {
             int x = i % 3; //modulo (0, 1, 2, 0, 1, 2, 0, 1, 2)
             int y = (8 - i) / 3; //int div (2, 2, 2, 1, 1, 1, 0, 0, 0)
-            //Debug.Log(i + ": " + x + ", " + y);
+            // Debug.Log(i + ": " + x + ", " + y);
             if ((x == 1) && (y == 1))
             {
                 continue; //if middle tile, skip
             }
             if (grid[x, y] != null)
             {
-                tileLists.Add(compatibleList(grid[x, y], cardinals[i]));
+                List<TileBase> tempList = compatibleList(grid[x, y], cardinals[i]);
+                if (tempList != null)
+                {
+                    tileLists.Add(compatibleList(grid[x, y], cardinals[i]));
+                }
             }
         }
 
@@ -602,7 +606,14 @@ public class MapGenerator : MonoBehaviour
             List<double> chances = new List<double>();
             for (int i = 0; i < compTiles.Count(); i++)
             {
-                chances.Add((double)_mapManager._dataFromTiles[compTiles.ElementAt(i)].spawnChance);
+                try
+                {
+                    chances.Add(_mapManager._dataFromTiles[compTiles.ElementAt(i)].spawnChance);
+                }
+                catch
+                {
+                    Debug.Log("Tile missing from Map Manager (probably)");
+                }
             }
 
             //random gaussian number, will find the closest tile "chance" to the selection and save its index in the list
@@ -629,16 +640,16 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
-            //try
-            //{
-            //Debug.Log(compTiles.Count().ToString() + ", " + index.ToString());
-            return compTiles.ElementAt(index);
-            /*}
-            catch
+            if (compTiles.Count() == 0)
             {
-                Debug.Log("Impossible combination at " + new Vector2Int(x, y));
-                //regenerateTiles(x, y);
-            }*/
+                //Debug.Log(compTiles.Count().ToString() + ", " + index.ToString());
+                return compTiles.ElementAt(index);
+            }
+            else
+            {
+                //Debug.Log("Impossible combination at " + new Vector2Int(x, y));
+                return null;
+            }
         } else {
         
             //if there are no adjacent tiles, select a random tile to begin with and return it
@@ -669,7 +680,7 @@ public class MapGenerator : MonoBehaviour
             case "West":
                 compArray = _mapManager._dataFromTiles[tile].west;
                 break;
-            case "Northwest":
+/*            case "Northwest":
                 compArray = _mapManager._dataFromTiles[tile].northwest;
                 break;
             case "Northeast":
@@ -680,11 +691,11 @@ public class MapGenerator : MonoBehaviour
                 break;
             case "Southwest":
                 compArray = _mapManager._dataFromTiles[tile].southwest;
-                break;
+                break;*/
             default:
-                Debug.Log("You misspelled the direction in the function call.");
-                compArray = null;
-                break;
+                //Debug.Log("You misspelled the direction in the function call.");
+//                compArray = null;
+                return null;
         }
         List<TileBase> tempList = new List<TileBase>();
         if (compArray != null)

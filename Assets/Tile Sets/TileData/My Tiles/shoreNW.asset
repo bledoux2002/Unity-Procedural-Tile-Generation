@@ -37,10 +37,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d2e9d75dff1125f46adf3a9dfd2d0c5a, type: 2}
   - {fileID: 11400000, guid: 80c6f2918c5d58742a817e4122f9c576, type: 2}
   - {fileID: 11400000, guid: 382777f329a62564c87247f275d49d31, type: 2}
+  - {fileID: 11400000, guid: 80c6f2918c5d58742a817e4122f9c576, type: 2}
   south:
   - {fileID: 11400000, guid: 80c6f2918c5d58742a817e4122f9c576, type: 2}
   - {fileID: 11400000, guid: a0157162b08ff84478f8eac3cba82032, type: 2}
   - {fileID: 11400000, guid: e96b3544773751e44bea4218f7c4884e, type: 2}
+  - {fileID: 11400000, guid: 80c6f2918c5d58742a817e4122f9c576, type: 2}
   west:
   - {fileID: 11400000, guid: bb34108498f3955458118b133846a1b4, type: 2}
   - {fileID: 11400000, guid: 53a806e0840c21a4c8865341300554de, type: 2}

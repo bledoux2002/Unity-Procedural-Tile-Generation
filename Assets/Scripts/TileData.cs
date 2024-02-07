@@ -10,7 +10,7 @@ public class TileData : ScriptableObject
 
     // The closer to 0, the more likely the tile is spawned
     [Range(0f, 6f)]
-    public double spawnChance = 3f;
+    public double spawnChance = 3d;
 
     public TileBase[] tiles;
 
