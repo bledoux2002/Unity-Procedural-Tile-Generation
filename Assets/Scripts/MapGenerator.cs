@@ -47,7 +47,7 @@ public class MapGenerator : MonoBehaviour
         Vector3Int currentCell3D = _map.WorldToCell(_cam.transform.position);
         Vector2Int currentCell = new Vector2Int(currentCell3D.x, currentCell3D.y);
 //        HideMap(currentCell);
-        SpiralGen(currentCell);
+//        SpiralGen(currentCell);
     }
     
     //cover range in fog of war top left to bottom right
@@ -120,43 +120,46 @@ public class MapGenerator : MonoBehaviour
                     }
                 }
 
+                int breaker = 0;
+
                 BeforeLoop:
                 //try until succeeded
- //               while (!genSuccess)
- //               {
- //                   genSuccess = true;
-
-                    //for each tile in 5x5 grid to be simulated (top left to bottom right)
-                    for (int gx = 1; gx < 6; gx++)
+                //for each tile in 5x5 grid to be simulated (top left to bottom right)
+                for (int gx = 1; gx < 6; gx++)
+                {
+                    for (int gy = 5; gy > 0; gy--)
                     {
-                        for (int gy = 5; gy > 0; gy--)
+                        //Debug.Log(gx + ", " + gy);
+                        //create mini grid of 3x3 section to input into selectTile()
+                        TileBase[,] tempGrid = new TileBase[3, 3];
+                        for (int tx = 0; tx < 3; tx++)
                         {
-//                            if (genSuccess)
-//                            {
-                                //Debug.Log(gx + ", " + gy);
-                                //create mini grid of 3x3 section to input into selectTile()
-                                TileBase[,] tempGrid = new TileBase[3, 3];
-                                for (int tx = 0; tx < 3; tx++)
-                                {
-                                    for (int ty = 2; ty > -1; ty--)
-                                    {
-                                        //Debug.Log(tx + ", " + ty);
-                                        tempGrid[tx, ty] = grid[tx + gx - 1, ty + gy - 1];
-                                    }
-                                }
-                                //EVERYTHING UP TO HERE SHOULD WORK, GOING TO REWORK selectTile() NEXT
-                                TileBase tempTile = selectTile(tempGrid);
-                                if (tempTile != null)
-                                {
-                                    grid[gx, gy] = tempTile;
-                                } else {
-                                //genSuccess = false;
-                                    goto BeforeLoop;
-                                }
-//                            }
+                            for (int ty = 2; ty > -1; ty--)
+                            {
+                                //Debug.Log(tx + ", " + ty);
+                                tempGrid[tx, ty] = grid[tx + gx - 1, ty + gy - 1];
+                            }
+                        }
+                        //EVERYTHING UP TO HERE SHOULD WORK, GOING TO REWORK selectTile() NEXT
+                        TileBase tempTile = selectTile(tempGrid);
+                        if (tempTile != null)
+                        {
+                            grid[gx, gy] = tempTile;
+                        } else {
+                            breaker++;
+                            if (breaker < 100)
+                            {
+                                goto BeforeLoop;
+                            }
+                            else
+                            {
+                                Debug.Log("Possible infinite loop");
+                                break;
+                            }
                         }
                     }
-                //}
+                }
+
                 TileBase changeTile = grid[3, 3];
                 _map.SetTile(new Vector3Int(x + input.x, y + input.y, 0), changeTile); //SHOULD PROBABLY ALLOW FOR Z MANIPULATION
                 /*int reqTilesNum = _mapManager.__dataFromTiles[changeTile].reqTiles.Count();
@@ -640,7 +643,7 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
-            if (compTiles.Count() == 0)
+            if (compTiles.Count() > 0)
             {
                 //Debug.Log(compTiles.Count().ToString() + ", " + index.ToString());
                 return compTiles.ElementAt(index);

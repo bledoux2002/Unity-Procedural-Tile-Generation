@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14369357c68af7849bd6bb02c62ed61b, type: 3}
+  m_Name: testGrass
+  m_EditorClassIdentifier: 
+  spawnChance: 3
+  tiles:
+  - {fileID: 11400000, guid: e4112d54eb8fd5e4a88853b689ee3df1, type: 2}
+  north:
+  - {fileID: 11400000}
+  east:
+  - {fileID: 11400000}
+  south:
+  - {fileID: 11400000}
+  west:
+  - {fileID: 11400000}
+  northwest:
+  - {fileID: 11400000}
+  northeast:
+  - {fileID: 11400000}
+  southeast:
+  - {fileID: 11400000}
+  southwest:
+  - {fileID: 11400000}
+  reqTiles: []
+  reqTilesCoords: []
